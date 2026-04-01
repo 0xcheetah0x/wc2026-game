@@ -1305,6 +1305,40 @@ body{
 .home-fm .comm-k{font-size:9px;color:var(--or);letter-spacing:.09em;text-transform:uppercase;font-family:var(--f-mono)}
 .home-fm .comm-b{font-size:11px;color:var(--tp);margin-top:2px}
 .home-fm .comm-t{font-size:9px;color:var(--tm);margin-top:4px;font-family:var(--f-mono)}
+.home-fm .news-marquee{
+  margin-top:8px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:rgba(17,29,53,.28);
+  height:146px;
+  overflow:hidden;
+  position:relative;
+}
+.home-fm .news-track{
+  display:flex;
+  flex-direction:column;
+  animation:newsUp 24s linear infinite;
+}
+.home-fm .news-track.static{animation:none}
+.home-fm .news-marquee:hover .news-track{animation-play-state:paused}
+.home-fm .news-item{
+  border-top:1px solid var(--br);
+  padding:8px;
+  font-size:11px;
+  color:var(--tp);
+  line-height:1.45;
+  background:rgba(17,29,53,.28);
+}
+.home-fm .news-item:first-child{border-top:none}
+.home-fm .news-item .dot{
+  color:var(--or);
+  font-family:var(--f-mono);
+  margin-right:6px;
+}
+@keyframes newsUp{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(-50%)}
+}
 
 .home-fm .profile-card{
   display:flex;
@@ -1479,6 +1513,43 @@ body{
   border-radius:2px;
   padding:8px 10px;
   background:rgba(10,18,34,.75);
+}
+.home-fm .pred-feed-wrap{margin-top:12px}
+.home-fm .pred-feed-list{
+  margin-top:8px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  max-height:240px;
+  scroll-behavior:smooth;
+}
+.home-fm .pred-feed-row{
+  display:block;
+  padding:7px 8px;
+  border-top:1px solid var(--br);
+  font-size:11px;
+  background:rgba(17,29,53,.3);
+}
+.home-fm .pred-feed-row:first-child{border-top:none}
+.home-fm .pred-feed-line{
+  display:block;
+  min-width:0;
+  color:var(--tp);
+  line-height:1.45;
+  word-break:break-word;
+}
+.home-fm .pred-feed-score-inline{
+  font-family:var(--f-mono);
+  color:var(--or);
+  font-weight:700;
+  letter-spacing:.03em;
+}
+.home-fm .pred-feed-user-tag{
+  color:var(--or);
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:.04em;
 }
 
 .home-fm .standings-table{
@@ -2182,6 +2253,11 @@ body{
   }
   .home-fm .standings-full .standings-head{font-size:7px}
   .home-fm .standings-full .standings-row{font-size:10px}
+  .home-fm .pred-feed-list{max-height:180px}
+  .home-fm .pred-feed-row{padding:6px 7px;font-size:10px}
+  .home-fm .pred-feed-user-tag{font-size:9px}
+  .home-fm .news-marquee{height:124px}
+  .home-fm .news-item{padding:7px;font-size:10px}
   .my-fm .my-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .my-fm .my-side,
   .my-fm .my-main-panel,
@@ -2964,6 +3040,7 @@ function MainApp({currentUser,onLogout}){
 function HomeScreen({currentUser,scores,liveSync}){
   const [now,setNow]=useState(new Date());
   const [selectedMatchId,setSelectedMatchId]=useState(null);
+  const [selectedMatchdayKey,setSelectedMatchdayKey]=useState(null);
   const [selectedUserKey,setSelectedUserKey]=useState(null);
   useEffect(()=>{const id=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(id)},[]);
 
@@ -2992,6 +3069,7 @@ function HomeScreen({currentUser,scores,liveSync}){
     }
     return [];
   },[live,today,nextM,enriched]);
+  const currentMatchdayKey=matchdayRows[0]?fmtDateKey(matchdayRows[0].utc):null;
   const rankingDayKey=matchdayRows[0]?fmtDateKey(matchdayRows[0].utc):null;
   const topDailyRanking=useMemo(()=>{
     if(!rankingDayKey) return [];
@@ -3020,6 +3098,13 @@ function HomeScreen({currentUser,scores,liveSync}){
     if(!matchdayRows.some(m=>m.id===selectedMatchId)) setSelectedMatchId(null);
   },[matchdayRows,selectedMatchId]);
 
+  useEffect(()=>{
+    if(currentMatchdayKey!==selectedMatchdayKey){
+      setSelectedMatchdayKey(currentMatchdayKey);
+      setSelectedMatchId(null);
+    }
+  },[currentMatchdayKey,selectedMatchdayKey]);
+
   const selectedMatch=useMemo(()=>{
     if(selectedMatchId==null) return null;
     return enriched.find(m=>m.id===selectedMatchId)||null;
@@ -3047,6 +3132,35 @@ function HomeScreen({currentUser,scores,liveSync}){
     };
   },[selectedMatch,scores]);
 
+  const revealedPredFeed=useMemo(()=>{
+    const nowMs=now.getTime();
+    const rows=[];
+    Object.values(users).forEach(u=>{
+      const allPreds=S.get('preds_'+u.username)||{};
+      Object.entries(allPreds).forEach(([mid,p])=>{
+        if(!p||typeof p.h!=='number'||typeof p.a!=='number') return;
+        const m=MATCHES.find(x=>String(x.id)===String(mid));
+        if(!m) return;
+        const revealAtMs=new Date(m.utc).getTime()-(59*60000); // lock + 1 dakika
+        if(nowMs<revealAtMs) return;
+        const savedAtRaw=p.savedAt?new Date(p.savedAt).getTime():0;
+        const savedAtMs=Number.isFinite(savedAtRaw)?savedAtRaw:0;
+        rows.push({
+          key:`${u.username}_${m.id}`,
+          username:u.username,
+          displayName:u.displayName,
+          home:m.h,
+          away:m.a,
+          h:p.h,
+          a:p.a,
+          savedAtMs,
+          matchUtcMs:new Date(m.utc).getTime()
+        });
+      });
+    });
+    return rows.sort((a,b)=>(b.savedAtMs-a.savedAtMs||b.matchUtcMs-a.matchUtcMs||a.displayName.localeCompare(b.displayName,'tr')));
+  },[users,now]);
+
   const selectedUser=useMemo(()=>{
     if(!selectedUserKey) return null;
     const base=users[selectedUserKey];
@@ -3064,13 +3178,88 @@ function HomeScreen({currentUser,scores,liveSync}){
   },[selectedUserKey,users,lb,topDailyRanking]);
 
   const comms=useMemo(()=>{
+    const nowMs=now.getTime();
     const list=[];
-    if(nextM) list.push({k:'Tactical Report',body:`Sonraki kritik eşleşme: ${nextM.h} vs ${nextM.a}`,tag:fmtTR(nextM.utc)+' TR'});
-    if(live[0]) list.push({k:'Live Feed',body:`Canlı maç açık: ${live[0].h} vs ${live[0].a}`,tag:'LIVE'});
-    if(lb[0]) list.push({k:'Standings',body:`Lider: ${lb[0].displayName} (${lb[0].totalPoints||0} puan)`,tag:'TOP'});
-    while(list.length<3) list.push({k:'System',body:'Turnuva veri akışı stabil çalışıyor.',tag:'OK'});
-    return list.slice(0,3);
-  },[nextM,live,lb]);
+    const push=(text,ts=nowMs)=>list.push({id:`news_${list.length}_${Math.max(0,Math.floor(ts))}`,text,ts:Number.isFinite(ts)?ts:nowMs});
+    const userList=Object.values(users);
+
+    userList
+      .filter(u=>u.createdAt)
+      .sort((a,b)=>new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime())
+      .slice(0,2)
+      .forEach(u=>push(`${u.displayName} adlı kullanıcı üye oldu.`,new Date(u.createdAt).getTime()));
+
+    const finishedDesc=MATCHES
+      .filter(m=>{
+        const sc=scores[m.id];
+        return sc&&typeof sc.h==='number'&&typeof sc.a==='number'&&sc.status!=='live';
+      })
+      .sort((a,b)=>new Date(b.utc).getTime()-new Date(a.utc).getTime());
+
+    let exactAdded=false;
+    for(const m of finishedDesc){
+      const sc=scores[m.id];
+      for(const u of userList){
+        const p=(S.get('preds_'+u.username)||{})[m.id];
+        if(p&&p.h===sc.h&&p.a===sc.a){
+          push(`${u.displayName} adlı kullanıcı başarılı skor tahmini yaptı.`,new Date(m.utc).getTime()+3);
+          exactAdded=true;
+          break;
+        }
+      }
+      if(exactAdded) break;
+    }
+
+    let streakAdded=false;
+    for(const u of userList){
+      let streak=0;
+      for(const m of finishedDesc){
+        const sc=scores[m.id];
+        const p=(S.get('preds_'+u.username)||{})[m.id];
+        if(!p) continue;
+        if(p.h===sc.h&&p.a===sc.a){
+          streak++;
+          if(streak>=2){
+            push(`${u.displayName} adlı kullanıcı üst üste ${streak} skor bildi.`,new Date(m.utc).getTime()+2);
+            streakAdded=true;
+            break;
+          }
+        }else{
+          streak=0;
+        }
+      }
+      if(streakAdded) break;
+    }
+
+    if(lb[0]) push(`Lider değişti, yeni lider ${lb[0].displayName}.`,nowMs-120000);
+    if(nextM) push(`Sonraki maç ${nextM.h} - ${nextM.a}.`,new Date(nextM.utc).getTime());
+    if(live[0]) push(`Canlı maçta son durum: ${live[0].h} - ${live[0].a}.`,nowMs+1500);
+
+    let missedAdded=false;
+    for(const m of finishedDesc){
+      for(const u of userList){
+        const p=(S.get('preds_'+u.username)||{})[m.id];
+        if(!p){
+          push(`${u.displayName}, ${m.h} - ${m.a} maçı tahminini kaçırdı.`,new Date(m.utc).getTime()+1);
+          missedAdded=true;
+          break;
+        }
+      }
+      if(missedAdded) break;
+    }
+
+    if(list.length===0) push('Turnuva haber akışı hazırlanıyor.',nowMs);
+
+    const seen=new Set();
+    return list
+      .sort((a,b)=>b.ts-a.ts)
+      .filter(item=>{
+        if(seen.has(item.text)) return false;
+        seen.add(item.text);
+        return true;
+      })
+      .slice(0,12);
+  },[users,scores,lb,nextM,live,now]);
 
   const systemInfos=useMemo(()=>[
     {tone:'gold',title:'Gün Verisi',txt:'Seçili gün için puanlanan tahmin verisi bekleniyor.'},
@@ -3129,12 +3318,13 @@ function HomeScreen({currentUser,scores,liveSync}){
         </div>
 
         <div className="panel-head mt16">Turnuva Haberleri <span className="panel-tag">{comms.length} NEW</span></div>
-        <div className="comms-list">
-          {comms.map((item,i)=><div key={i} className="comm-item">
-            <div className="comm-k">{item.k}</div>
-            <div className="comm-b">{item.body}</div>
-            <div className="comm-t">{item.tag}</div>
-          </div>)}
+        <div className="news-marquee">
+          <div className={`news-track${comms.length<2?' static':''}`}>
+            {[...comms,...(comms.length>1?comms:[])].map((item,i)=><div key={`${item.id}_${i}`} className="news-item">
+              <span className="dot">•</span>
+              <span>{item.text}</span>
+            </div>)}
+          </div>
         </div>
       </div>
 
@@ -3219,6 +3409,17 @@ function HomeScreen({currentUser,scores,liveSync}){
             <div className="intel-note">Ana sayfada skor tahmini yapılamaz. Bu kart yalnızca maç bilgisi ve canlı durum detaylarını gösterir.</div>
           </div>
         </div>}
+        <div className="pred-feed-wrap">
+          <div className="panel-head mt16">Kullanıcı Tahminleri</div>
+          <div className="pred-feed-list">
+            {revealedPredFeed.map(u=><div key={u.key} className="pred-feed-row">
+              <span className="pred-feed-line">
+                {u.home} <span className="pred-feed-score-inline">{u.h} - {u.a}</span> {u.away} <span className="pred-feed-user-tag">({(u.displayName||u.username||'').toUpperCase()})</span>
+              </span>
+            </div>)}
+            {revealedPredFeed.length===0&&<div className="recap-empty">Kilit sonrası görülebilir skor tahmini henüz yok.</div>}
+          </div>
+        </div>
       </div>
     </section>
     {selectedUser&&<div className="user-modal-overlay" onClick={()=>setSelectedUserKey(null)}>
@@ -3330,7 +3531,7 @@ function MyScreen({currentUser,onUserUpdate,scores}){
       <div className="my-banner-left">
         <div className="my-badge">MY</div>
         <div>
-          <div className="my-overline">PERSONAL CONTROL CENTER</div>
+          <div className="my-overline">USER DASHBOARD</div>
           <h2>BENİM SAYFAM</h2>
           <div className="my-meta">
             <span>@{currentUser.username}</span>
