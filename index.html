@@ -2183,6 +2183,20 @@ body{
   .my-fm .champ-card,
   .my-fm .my-side-note,
   .my-fm .pred-card{min-width:0;max-width:100%}
+  .my-fm,
+  .my-fm section,
+  .my-fm .my-stats-grid,
+  .my-fm .my-workspace,
+  .my-fm .my-side,
+  .my-fm .my-main-panel,
+  .my-fm .my-tab-body,
+  .my-fm .pred-card,
+  .my-fm .pred-body,
+  .my-fm .mboard{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+  }
   .my-fm .my-main-panel{padding:8px}
   .my-fm .my-tab-body{overflow:hidden}
   .my-fm .my-tabs{
@@ -2200,6 +2214,9 @@ body{
     font-size:9px;
     line-height:1.2;
     letter-spacing:.04em;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
   }
   .my-fm .my-tab span{
     display:block;
@@ -2229,17 +2246,25 @@ body{
     gap:8px;
     padding:9px 10px;
   }
+  .my-fm .champ-sel-name{
+    font-size:14px;
+    letter-spacing:.04em;
+    word-break:break-word;
+  }
   .my-fm .champ-selected .btn-sm-ghost{width:100%}
   .my-fm .pred-status-bar{
+    display:grid;
+    grid-template-columns:1fr;
     flex-wrap:wrap;
     row-gap:3px;
     padding:6px 8px;
     font-size:9px;
     letter-spacing:.08em;
   }
+  .my-fm .pred-status-bar>span{min-width:0}
   .my-fm .pred-status-bar>span:last-child{
     width:100%;
-    text-align:right;
+    text-align:left;
     font-size:9px !important;
     opacity:.7;
   }
@@ -2251,7 +2276,11 @@ body{
   .my-fm .mboard-live{font-size:7px;padding:1px 5px}
   .my-fm .mboard-time{font-size:9px}
   .my-fm .mboard-date{font-size:8px}
-  .my-fm .mboard-body{gap:5px}
+  .my-fm .mboard-body{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    gap:4px;
+  }
   .my-fm .mboard-team{gap:4px}
   .my-fm .mboard-name{
     font-size:10px;
@@ -2321,6 +2350,7 @@ body{
 }
 @media(max-width:420px){
   .home-fm .user-modal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .my-fm .my-tabs{grid-template-columns:1fr 1fr}
 }
 @media(max-width:380px){
   .my-fm .my-stats-grid{grid-template-columns:1fr}
