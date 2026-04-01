@@ -1032,11 +1032,6 @@ body{
 }
 .app-root.fm-shell .continue-btn .date-short{display:none}
 .app-root.fm-shell .continue-btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
-.app-root.fm-shell,
-.app-root.fm-shell .main-shell,
-.app-root.fm-shell .app-main{
-  overflow-x:hidden;
-}
 .app-root.fm-shell .app-main{
   margin-left:0;
   padding:14px;
@@ -2071,6 +2066,8 @@ body{
   .home-fm .context-banner{flex-direction:column}
   .home-fm .context-next{text-align:left;min-width:0}
   .home-fm .fm-grid{grid-template-columns:1fr}
+  .home-fm .fm-grid-dashboard>.fm-panel:nth-child(2){order:3}
+  .home-fm .fm-grid-dashboard>.fm-panel.right-col{order:2}
   .home-fm [data-col="right"]{grid-column:1}
   .home-fm .data-split{grid-template-columns:1fr}
   .home-fm .recap-head,.home-fm .recap-row{grid-template-columns:46px 1fr 56px 1fr 48px}
@@ -2160,17 +2157,29 @@ body{
   }
   .app-root.fm-shell .sys-time-box{height:16px;padding:0 6px}
   .app-root.fm-shell .sys-ticker-track{gap:34px}
-  .home-fm .recap-table,
-  .home-fm .standings-table{
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
+  .home-fm .recap-table,.home-fm .standings-table{overflow:visible}
+  .home-fm .recap-head,.home-fm .recap-row{
+    grid-template-columns:44px minmax(88px,1fr) 56px minmax(88px,1fr);
+    gap:6px;
+    padding:7px 6px;
+    min-width:0;
   }
-  .home-fm .recap-head,.home-fm .recap-row{min-width:500px}
-  .home-fm .standings-head,.home-fm .standings-row{min-width:360px}
+  .home-fm .recap-head span:nth-child(5),
+  .home-fm .recap-row span:nth-child(5){display:none}
+  .home-fm .standings-head,.home-fm .standings-row{
+    gap:4px;
+    padding:6px;
+    min-width:0;
+  }
   .home-fm .standings-full .standings-head,
-  .home-fm .standings-full .standings-row{min-width:560px}
+  .home-fm .standings-full .standings-row{
+    grid-template-columns:18px minmax(86px,1fr) 48px 48px 48px 58px;
+  }
+  .home-fm .standings-full .standings-head{font-size:7px}
+  .home-fm .standings-full .standings-row{font-size:10px}
   .my-fm .my-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .my-fm .champ-search{font-size:16px}
+  .my-fm .champ-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .home-fm .user-modal-overlay{
     place-items:end center;
     padding:10px 10px calc(58px + 24px + env(safe-area-inset-bottom,0px) + 10px);
