@@ -876,15 +876,8 @@ body{
 .app-root.fm-shell .fm-logo-title{
   font-family:var(--f-head);
   font-weight:800;
-  font-size:11px;
+  font-size:12px;
   letter-spacing:.09em;
-}
-.app-root.fm-shell .fm-logo-sub{
-  margin-top:3px;
-  color:var(--tm);
-  font-family:var(--f-mono);
-  font-size:9px;
-  letter-spacing:.1em;
 }
 .app-root.fm-shell .sb-nav{padding:10px 6px}
 .app-root.fm-shell .nav-item{
@@ -2050,13 +2043,13 @@ body{
   .my-fm .my-workspace{grid-template-columns:1fr}
 }
 @media(max-width:980px){
-  .app-root.fm-shell .sidebar{width:72px}
+  .app-root.fm-shell .sidebar{width:150px}
   .app-root.fm-shell .sb-logo{justify-content:center}
-  .app-root.fm-shell .fm-logo-meta{display:none}
-  .app-root.fm-shell .nav-item{justify-content:center}
-  .app-root.fm-shell .nav-item>span:last-child{display:none}
-  .app-root.fm-shell .main-shell{margin-left:72px;width:calc(100% - 72px)}
-  .app-root.fm-shell .sys-footer{left:72px}
+  .app-root.fm-shell .fm-logo-meta{display:block}
+  .app-root.fm-shell .nav-item{justify-content:flex-start}
+  .app-root.fm-shell .nav-item>span:last-child{display:block}
+  .app-root.fm-shell .main-shell{margin-left:150px;width:calc(100% - 150px)}
+  .app-root.fm-shell .sys-footer{left:150px}
   .app-root.fm-shell .ctrl-breadcrumb span:nth-child(1),
   .app-root.fm-shell .ctrl-breadcrumb span:nth-child(2),
   .app-root.fm-shell .ctrl-breadcrumb span:nth-child(3){display:none}
@@ -2876,9 +2869,9 @@ function MainApp({currentUser,onLogout}){
   },[]);
 
   const MENU=[
-    {id:'home',icon:'DB',label:'Dashboard'},
-    {id:'my',icon:'MY',label:'Benim Sayfam'},
-    {id:'rules',icon:'RL',label:'Kurallar'}
+    {id:'home',label:'Anasayfa'},
+    {id:'my',label:'Benim Sayfam'},
+    {id:'rules',label:'Kurallar'}
   ];
   const activeMenu=MENU.find(m=>m.id===active)||MENU[0];
   const footerTime=clock.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
@@ -2890,13 +2883,11 @@ function MainApp({currentUser,onLogout}){
       <div className="sb-logo">
         <div className="fm-logo-box"><img src="./worldcup1.png" alt="FIFA World Cup" /></div>
         <div className="fm-logo-meta">
-          <div className="fm-logo-title">WC26 PRO</div>
-          <div className="fm-logo-sub">SIM CORE</div>
+          <div className="fm-logo-title">WC2026</div>
         </div>
       </div>
       <nav className="sb-nav">
         {MENU.map(item=><div key={item.id} className={`nav-item${active===item.id?' active':''}`} onClick={()=>setActive(item.id)}>
-          <span className="nav-icon">{item.icon}</span>
           <span>{item.label}</span>
         </div>)}
         <div className="nav-item mobile-only" onClick={()=>{S.del('session');onLogout()}}>
