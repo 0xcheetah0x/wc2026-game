@@ -897,6 +897,7 @@ body{
   text-transform:uppercase;
   font-weight:700;
 }
+.app-root.fm-shell .nav-item.mobile-only{display:none}
 .app-root.fm-shell .nav-item:hover{border-color:var(--br);background:rgba(26,42,74,.35)}
 .app-root.fm-shell .nav-item.active{
   background:var(--bg2);
@@ -2098,18 +2099,33 @@ body{
   .app-root.fm-shell .sb-nav{
     width:100%;
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(4,1fr);
     padding:0;
   }
   .app-root.fm-shell .nav-item{
     margin:0;
     border:none;
+    border-right:1px solid rgba(148,163,184,.2);
     border-radius:0;
     display:flex;
     flex-direction:column;
     gap:2px;
     font-size:9px;
+    background:rgba(17,29,53,.78);
+    color:#dbe6f3;
   }
+  .app-root.fm-shell .nav-item:last-child{border-right:none}
+  .app-root.fm-shell .nav-item.active{
+    background:rgba(212,175,55,.2);
+    color:var(--or);
+    border-top:2px solid var(--or);
+  }
+  .app-root.fm-shell .nav-item.mobile-only{
+    display:flex;
+    background:rgba(127,29,29,.24);
+    color:#fecaca;
+  }
+  .app-root.fm-shell .nav-item.mobile-only .nav-icon{font-size:16px}
   .app-root.fm-shell .nav-item>span:last-child{display:block}
   .app-root.fm-shell .main-shell{margin-left:0;width:100%}
   .app-root.fm-shell .ctrl-header{padding:0 8px;gap:6px}
@@ -2734,6 +2750,10 @@ function MainApp({currentUser,onLogout}){
           <span className="nav-icon">{item.icon}</span>
           <span>{item.label}</span>
         </div>)}
+        <div className="nav-item mobile-only" onClick={()=>{S.del('session');onLogout()}}>
+          <span className="nav-icon">OUT</span>
+          <span>Sayfadan Çık</span>
+        </div>
       </nav>
       <div className="sb-user">
         <div className="user-badge">
