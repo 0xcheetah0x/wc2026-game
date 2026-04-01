@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FIFA Dünya Kupası 2026  Tahmin Oyunu</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -535,11 +536,25 @@ body{
 .mboard-sub{font-family:var(--f-mono);font-size:9px;color:var(--tm);margin-top:2px}
 
 /* ─────────────────────────── PREDICTION CARDS ─────────────────────────── */
-.pred-card{background:rgba(10,22,40,.85);border-radius:2px;overflow:hidden;transition:border-color .25s;margin-bottom:10px}
+.pred-card{background:rgba(10,22,40,.85);border-radius:2px;overflow:hidden;transition:border-color .25s,transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s,background .22s;margin-bottom:10px;will-change:transform}
 .pred-card.state-open{border:1px solid rgba(34,214,106,.22)}
 .pred-card.state-warn{border:1px solid rgba(255,107,0,.45)}
 .pred-card.state-locked{border:1px solid var(--br)}
 .pred-card.state-finished{border:1px solid rgba(30,45,69,.8);opacity:.8}
+.pred-card:hover{
+  transform:translateY(-2px) scale(1.01);
+  border-color:rgba(212,175,55,.5);
+  background:linear-gradient(180deg,rgba(212,175,55,.08),rgba(10,22,40,.9));
+  box-shadow:0 10px 20px rgba(0,0,0,.3),0 0 14px rgba(212,175,55,.16);
+}
+.pred-card:active{transform:translateY(-1px) scale(1.005)}
+.pred-card.state-locked:hover,
+.pred-card.state-finished:hover{
+  opacity:1;
+  border-color:rgba(212,175,55,.5);
+  background:linear-gradient(180deg,rgba(212,175,55,.08),rgba(10,22,40,.9));
+  box-shadow:0 10px 20px rgba(0,0,0,.3),0 0 14px rgba(212,175,55,.16);
+}
 
 .pred-status-bar{
   padding:6px 14px;font-family:var(--f-mono);font-size:10px;font-weight:700;
@@ -671,9 +686,16 @@ body{
   display:flex;align-items:center;gap:10px;padding:9px 12px;
   border-radius:2px;background:rgba(10,22,40,.7);
   border:1px solid var(--br);margin-bottom:5px;
-  transition:border-color .18s;
+  transition:border-color .22s,transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s,background .22s;
+  will-change:transform;
 }
-.hist-row:hover{border-color:var(--br-bright)}
+.hist-row:hover{
+  transform:translateY(-2px) scale(1.01);
+  border-color:rgba(212,175,55,.5);
+  background:linear-gradient(180deg,rgba(212,175,55,.08),rgba(10,22,40,.88));
+  box-shadow:0 10px 20px rgba(0,0,0,.3),0 0 14px rgba(212,175,55,.16);
+}
+.hist-row:active{transform:translateY(-1px) scale(1.005)}
 .hist-match{flex:1}
 .hist-teams{font-size:12px;font-weight:600;font-family:var(--f-ui)}
 .hist-date{font-family:var(--f-mono);font-size:9px;color:var(--tm);margin-top:1px;letter-spacing:.04em}
@@ -784,6 +806,1319 @@ body{
   .logo-year{font-size:34px}
   .logo-ball{font-size:28px}
 }
+
+/* FM PREMIUM DASHBOARD OVERRIDES */
+.app-root.fm-shell{
+  --bg0:#070d18;
+  --bg1:#050a14;
+  --bg2:#1a2a4a;
+  --bg3:#111d35;
+  --or:#d4af37;
+  --orl:#e3c35d;
+  --ord:rgba(212,175,55,.14);
+  --or-glow:rgba(212,175,55,.25);
+  --gold:#d4af37;
+  --br:#1e293b;
+  --br-bright:#2f415e;
+  --tp:#cbd5e1;
+  --ts:#8ca1bd;
+  --tm:#5b7090;
+  --green:#22c55e;
+  --red:#ef4444;
+  --f-head:'General Sans','Outfit',sans-serif;
+  --f-ui:'Satoshi','Inter',sans-serif;
+  --f-mono:'JetBrains Mono',monospace;
+  background:var(--bg0);
+  color:var(--tp);
+}
+.app-root.fm-shell::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.04;
+  background-image:
+    radial-gradient(circle at 20% 20%,rgba(212,175,55,.35),transparent 30%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.55) 0 1px,transparent 1px 20px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.55) 0 1px,transparent 1px 20px);
+}
+.app-root.fm-shell .sidebar{
+  width:190px;
+  background:#050a14;
+  border-right:1px solid var(--br);
+}
+.app-root.fm-shell .sidebar::before{display:none}
+.app-root.fm-shell .sb-logo{
+  padding:14px 12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid var(--br);
+}
+.app-root.fm-shell .fm-logo-box{
+  width:28px;
+  height:28px;
+  border-radius:2px;
+  background:#050a14;
+  border:1px solid var(--br);
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+}
+.app-root.fm-shell .fm-logo-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.app-root.fm-shell .fm-logo-meta{line-height:1}
+.app-root.fm-shell .fm-logo-title{
+  font-family:var(--f-head);
+  font-weight:800;
+  font-size:11px;
+  letter-spacing:.09em;
+}
+.app-root.fm-shell .fm-logo-sub{
+  margin-top:3px;
+  color:var(--tm);
+  font-family:var(--f-mono);
+  font-size:9px;
+  letter-spacing:.1em;
+}
+.app-root.fm-shell .sb-nav{padding:10px 6px}
+.app-root.fm-shell .nav-item{
+  border-radius:2px;
+  border:1px solid transparent;
+  padding:10px 10px;
+  gap:8px;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+.app-root.fm-shell .nav-item:hover{border-color:var(--br);background:rgba(26,42,74,.35)}
+.app-root.fm-shell .nav-item.active{
+  background:var(--bg2);
+  color:var(--or);
+  border-color:#2d4064;
+}
+.app-root.fm-shell .nav-item::before{
+  width:3px;
+  top:0;
+  bottom:0;
+  border-radius:0;
+  transform:scaleY(0);
+}
+.app-root.fm-shell .nav-item.active::before{transform:scaleY(1)}
+.app-root.fm-shell .nav-icon{
+  width:24px;
+  height:18px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  display:grid;
+  place-items:center;
+  font-size:9px;
+  font-family:var(--f-mono);
+  font-weight:700;
+}
+.app-root.fm-shell .sb-user{
+  border-top:1px solid var(--br);
+  padding:10px 8px 12px;
+}
+.app-root.fm-shell .user-badge{
+  background:linear-gradient(180deg,rgba(26,42,74,.45),rgba(11,20,38,.55));
+  border:1px solid var(--br);
+}
+.app-root.fm-shell .user-disp{
+  font-family:var(--f-head);
+  font-size:12px;
+  letter-spacing:.05em;
+  color:var(--tp);
+}
+.app-root.fm-shell .user-un{font-size:9px}
+.app-root.fm-shell .btn-d{
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  border-radius:2px;
+}
+.app-root.fm-shell .main-shell{
+  margin-left:190px;
+  min-height:100vh;
+  width:calc(100% - 190px);
+  position:relative;
+  z-index:1;
+}
+.app-root.fm-shell .ctrl-header{
+  height:48px;
+  background:#050a14;
+  border-bottom:1px solid var(--br);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 12px;
+  gap:10px;
+}
+.app-root.fm-shell .ctrl-left,.app-root.fm-shell .ctrl-right{display:flex;align-items:center;gap:8px}
+.app-root.fm-shell .ctrl-icon-btn{
+  width:22px;
+  height:22px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:#0b162a;
+  color:var(--ts);
+  cursor:pointer;
+}
+.app-root.fm-shell .ctrl-icon-btn:hover{color:var(--or);border-color:var(--or)}
+.app-root.fm-shell .ctrl-breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-family:var(--f-mono);
+  color:var(--tm);
+}
+.app-root.fm-shell .ctrl-breadcrumb strong{color:var(--or)}
+.app-root.fm-shell .ctrl-search-wrap{width:220px}
+.app-root.fm-shell .ctrl-search{
+  width:100%;
+  height:30px;
+  background:#111d35;
+  border:1px solid var(--br);
+  border-radius:2px;
+  padding:0 10px;
+  color:var(--tp);
+  font-size:11px;
+}
+.app-root.fm-shell .sync-pill{
+  height:30px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  padding:0 8px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-family:var(--f-mono);
+  font-size:9px;
+  letter-spacing:.08em;
+  color:var(--tm);
+}
+.app-root.fm-shell .sync-pill.ok{color:#3ee381}
+.app-root.fm-shell .sync-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#3ee381;
+  box-shadow:0 0 8px rgba(62,227,129,.7);
+  animation:dotPulse 1.6s ease-in-out infinite;
+}
+.app-root.fm-shell .continue-btn{
+  height:30px;
+  padding:0 12px;
+  border:1px solid var(--or);
+  border-radius:2px;
+  background:var(--or);
+  color:#050a14;
+  font-family:var(--f-head);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:all .25s cubic-bezier(.22,1,.36,1);
+}
+.app-root.fm-shell .continue-btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.app-root.fm-shell .app-main{
+  margin-left:0;
+  padding:14px;
+  padding-bottom:40px;
+  min-height:calc(100vh - 72px);
+}
+.app-root.fm-shell .sys-footer{
+  position:fixed;
+  left:190px;
+  right:0;
+  bottom:0;
+  height:24px;
+  background:var(--or);
+  color:#050a14;
+  border-top:1px solid #a18120;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 10px 0 12px;
+  font-family:var(--f-mono);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  z-index:40;
+  overflow:hidden;
+}
+.app-root.fm-shell .sys-ticker-wrap{
+  flex:1;
+  min-width:0;
+  height:100%;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  position:relative;
+  padding-right:12px;
+}
+.app-root.fm-shell .sys-ticker-wrap::after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  width:24px;
+  height:100%;
+  background:linear-gradient(90deg,rgba(212,175,55,0),rgba(212,175,55,1));
+  pointer-events:none;
+}
+.app-root.fm-shell .sys-ticker-track{
+  display:flex;
+  align-items:center;
+  gap:58px;
+  white-space:nowrap;
+  min-width:max-content;
+  animation:sysTicker 18s linear infinite;
+}
+.app-root.fm-shell .sys-time-box{
+  flex-shrink:0;
+  height:18px;
+  display:flex;
+  align-items:center;
+  border:1px solid rgba(5,10,20,.78);
+  border-radius:2px;
+  background:rgba(5,10,20,.72);
+  padding:0 8px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+}
+.app-root.fm-shell .sys-time{
+  margin-left:0;
+  color:#f87171;
+}
+
+.home-fm .context-banner{
+  min-height:96px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:
+    linear-gradient(110deg,rgba(7,13,24,.95) 0%,rgba(26,42,74,.95) 66%,rgba(212,175,55,.18) 100%);
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px;
+}
+.home-fm .context-main{display:flex;gap:12px;align-items:flex-start}
+.home-fm .league-badge{
+  width:64px;
+  height:64px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  display:grid;
+  place-items:center;
+  background:rgba(5,10,20,.7);
+  overflow:hidden;
+}
+.home-fm .league-badge img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.home-fm .context-overline{
+  font-size:10px;
+  color:var(--or);
+  font-family:var(--f-mono);
+  letter-spacing:.12em;
+}
+.home-fm h1{
+  font-family:var(--f-head);
+  font-size:24px;
+  line-height:1.1;
+  letter-spacing:.01em;
+  margin-top:3px;
+  color:#f4f7fb;
+}
+.home-fm .context-meta{
+  margin-top:8px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:10px;
+  color:var(--ts);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.home-fm .status-live{display:flex;align-items:center;gap:6px;color:#5ff0a0}
+.home-fm .live-dot{
+  width:8px;height:8px;border-radius:50%;background:#22c55e;
+  box-shadow:0 0 10px rgba(34,197,94,.8);animation:dotPulse 1.4s ease-in-out infinite;
+}
+.home-fm .context-next{
+  text-align:right;
+  min-width:220px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.home-fm .context-next-label{font-size:9px;color:var(--tm);font-family:var(--f-mono);letter-spacing:.12em}
+.home-fm .context-next-match{margin-top:3px;font-family:var(--f-head);font-weight:700;font-size:13px}
+.home-fm .context-next-time{margin-top:4px;color:var(--or);font-family:var(--f-mono);font-size:11px}
+
+.home-fm .context-tabs{
+  margin-top:10px;
+  display:flex;
+  gap:2px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  overflow:auto;
+  background:#050a14;
+}
+.home-fm .ctx-tab{
+  border:0;
+  border-bottom:2px solid transparent;
+  background:transparent;
+  color:var(--tm);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:10px;
+  font-family:var(--f-head);
+  font-weight:800;
+  padding:9px 12px 7px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.home-fm .ctx-tab.active{color:var(--or);border-bottom-color:var(--or);background:rgba(26,42,74,.32)}
+.home-fm .sync-note{
+  font-size:10px;
+  color:var(--tm);
+  margin:8px 0 10px;
+  font-family:var(--f-mono);
+}
+
+.home-fm .fm-grid{
+  display:grid;
+  grid-template-columns:4fr 5fr 3fr;
+  gap:10px;
+}
+.home-fm .fm-panel{
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:linear-gradient(180deg,rgba(10,18,34,.96),rgba(7,13,24,.97));
+  padding:10px;
+  min-height:220px;
+}
+.home-fm .panel-head{
+  font-family:var(--f-head);
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--or);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.home-fm .panel-head .panel-tag{
+  font-family:var(--f-mono);
+  font-size:9px;
+  color:#050a14;
+  background:var(--or);
+  padding:1px 5px;
+  border-radius:2px;
+}
+.home-fm .panel-sub{
+  font-size:10px;
+  color:var(--ts);
+  margin-top:3px;
+  letter-spacing:.04em;
+}
+.home-fm .mt16{margin-top:16px}
+
+.home-fm .pitch-bg{
+  position:relative;
+  margin-top:8px;
+  height:220px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:
+    linear-gradient(180deg,#1a2a4a,#111d35),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 20px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 20px);
+  overflow:hidden;
+}
+.home-fm .pitch-lines{position:absolute;inset:0}
+.home-fm .pitch-lines line{
+  stroke:var(--or);
+  stroke-width:.8;
+  stroke-dasharray:2 2;
+  opacity:.65;
+}
+.home-fm .pitch-marker{
+  position:absolute;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:rgba(230,238,246,.55);
+}
+.home-fm .pitch-marker.focus{
+  background:var(--or);
+  box-shadow:0 0 10px rgba(212,175,55,.9);
+}
+.home-fm .pitch-marker.m1{left:9%;top:58%}
+.home-fm .pitch-marker.m2{left:33%;top:30%}
+.home-fm .pitch-marker.m3{left:49%;top:58%}
+.home-fm .pitch-marker.m4{left:74%;top:44%}
+.home-fm .pitch-marker.m5{left:58%;top:50%}
+.home-fm .pitch-footer{
+  margin-top:8px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.home-fm .pitch-footer>div{
+  border:1px solid var(--br);
+  background:#050a14;
+  border-radius:2px;
+  padding:7px;
+}
+.home-fm .pitch-footer small{
+  display:block;
+  color:var(--tm);
+  font-size:8px;
+  letter-spacing:.1em;
+  font-family:var(--f-mono);
+}
+.home-fm .pitch-footer strong{
+  font-size:12px;
+  font-family:var(--f-head);
+}
+.home-fm .pitch-footer .hot{color:var(--or)}
+
+.home-fm .comms-list{margin-top:8px}
+.home-fm .comm-item{
+  border:1px solid var(--br);
+  border-left:2px solid var(--or);
+  border-radius:2px;
+  padding:8px;
+  background:rgba(17,29,53,.35);
+  margin-bottom:6px;
+}
+.home-fm .comm-k{font-size:9px;color:var(--or);letter-spacing:.09em;text-transform:uppercase;font-family:var(--f-mono)}
+.home-fm .comm-b{font-size:11px;color:var(--tp);margin-top:2px}
+.home-fm .comm-t{font-size:9px;color:var(--tm);margin-top:4px;font-family:var(--f-mono)}
+
+.home-fm .profile-card{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  padding:8px;
+  background:rgba(17,29,53,.42);
+}
+.home-fm .trend-up{
+  font-size:16px;
+  color:#22c55e;
+  font-family:var(--f-mono);
+}
+.home-fm .kpi-grid{margin-top:10px}
+.home-fm .kpi-row{
+  display:flex;
+  justify-content:space-between;
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-family:var(--f-mono);
+  margin-top:5px;
+}
+.home-fm .kpi-row strong{font-size:11px;color:var(--tp)}
+.home-fm .fm-bar{
+  height:4px;
+  background:var(--br);
+  margin-top:4px;
+  position:relative;
+}
+.home-fm .fm-bar i{
+  position:absolute;
+  inset:0 auto 0 0;
+  background:var(--or);
+}
+.home-fm .fm-bar.green i{background:#22c55e}
+
+.home-fm .data-split{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.home-fm .heat-grid{
+  margin-top:8px;
+  display:grid;
+  grid-template-columns:repeat(5,12px);
+  gap:4px;
+}
+.home-fm .heat-cell{
+  width:12px;
+  height:12px;
+  background:var(--or);
+}
+.home-fm .heat-cell.hot{box-shadow:0 0 8px var(--or)}
+.home-fm .sim-kpis{
+  margin-top:8px;
+  display:grid;
+  gap:8px;
+}
+.home-fm .sim-kpis small{
+  display:block;
+  color:var(--tm);
+  font-size:8px;
+  letter-spacing:.1em;
+  font-family:var(--f-mono);
+}
+.home-fm .sim-kpis strong{
+  display:block;
+  font-family:var(--f-mono);
+  font-size:14px;
+}
+
+.home-fm .recap-table{
+  margin-top:8px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  overflow:hidden;
+}
+.home-fm .recap-head,
+.home-fm .recap-row{
+  display:grid;
+  grid-template-columns:54px 1fr 70px 1fr 60px;
+  gap:8px;
+  align-items:center;
+  padding:7px 8px;
+}
+.home-fm .recap-head{
+  font-family:var(--f-mono);
+  font-size:8px;
+  color:var(--tm);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  background:#0b162a;
+}
+.home-fm .recap-row{
+  font-size:11px;
+  border-top:1px solid var(--br);
+}
+.home-fm .recap-row.clickable{
+  cursor:pointer;
+  transition:background .2s,box-shadow .2s,transform .2s;
+}
+.home-fm .recap-row.clickable:hover{
+  background:rgba(212,175,55,.08);
+  transform:translateY(-1px);
+  box-shadow:inset 0 0 0 1px rgba(212,175,55,.3);
+}
+.home-fm .recap-row.active{
+  background:rgba(212,175,55,.12);
+  box-shadow:inset 3px 0 0 var(--or);
+}
+.home-fm .mono{font-family:var(--f-mono)}
+.home-fm .st-chip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--br);
+  border-radius:2px;
+  font-size:8px;
+  font-family:var(--f-mono);
+  height:18px;
+  color:var(--ts);
+  background:#0f1d35;
+}
+.home-fm .st-chip.live{color:#22c55e;border-color:rgba(34,197,94,.55)}
+.home-fm .st-chip.full{color:#f87171;border-color:rgba(248,113,113,.6);background:rgba(248,113,113,.08)}
+.home-fm .st-chip.idle{color:var(--tm);border-color:rgba(100,116,139,.45)}
+.home-fm .recap-empty{
+  padding:16px;
+  text-align:center;
+  color:var(--tm);
+  font-size:12px;
+}
+.home-fm .fm-detail-zone{margin-top:10px}
+.home-fm .match-intel-card{margin-bottom:0}
+.home-fm .intel-grid{
+  margin-top:8px;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+}
+.home-fm .intel-item{
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:rgba(17,29,53,.32);
+  padding:7px;
+}
+.home-fm .intel-item small{
+  display:block;
+  font-size:8px;
+  color:var(--tm);
+  font-family:var(--f-mono);
+  letter-spacing:.1em;
+}
+.home-fm .intel-item strong{
+  display:block;
+  margin-top:4px;
+  font-size:14px;
+  color:var(--tp);
+  font-family:var(--f-mono);
+}
+.home-fm .intel-note{
+  margin-top:10px;
+  font-size:11px;
+  color:var(--ts);
+  line-height:1.6;
+  border:1px solid var(--br);
+  border-radius:2px;
+  padding:8px 10px;
+  background:rgba(10,18,34,.75);
+}
+
+.home-fm .standings-table{
+  margin-top:8px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  overflow:hidden;
+}
+.home-fm .standings-head,.home-fm .standings-row{
+  display:grid;
+  grid-template-columns:24px 1fr 34px 44px;
+  gap:8px;
+  align-items:center;
+  padding:7px;
+}
+.home-fm .standings-full .standings-head,
+.home-fm .standings-full .standings-row{
+  grid-template-columns:24px 1fr 66px 66px 66px 82px;
+}
+.home-fm .standings-full .standings-head > span:nth-child(2),
+.home-fm .standings-full .standings-row > :nth-child(2){
+  margin-left:-3px;
+}
+.home-fm .standings-full .standings-head > span:nth-child(n+3),
+.home-fm .standings-full .standings-row > span:nth-child(n+3){
+  text-align:center;
+}
+.home-fm .standings-head{
+  background:#0b162a;
+  font-size:8px;
+  color:var(--tm);
+  font-family:var(--f-mono);
+  letter-spacing:.1em;
+}
+.home-fm .standings-row{font-size:11px;border-top:1px solid var(--br)}
+.home-fm .standings-full .standings-row:nth-child(odd){background:rgba(13,25,48,.2)}
+.home-fm .standings-full .standings-row:hover{background:rgba(26,42,74,.45)}
+.home-fm .standings-full .standings-row > span:first-child{color:#93c5fd;font-family:var(--f-mono)}
+.home-fm .standings-full .h-p{color:#facc15}
+.home-fm .standings-full .h-st{color:#22c55e}
+.home-fm .standings-full .h-tt{color:#60a5fa}
+.home-fm .standings-full .h-cp{color:#fb923c}
+.home-fm .standings-full .val-p{color:#facc15;font-weight:700}
+.home-fm .standings-full .val-st{color:#22c55e}
+.home-fm .standings-full .val-tt{color:#60a5fa}
+.home-fm .standings-full .val-cp{color:#fb923c}
+.home-fm .truncate{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.home-fm .user-link-btn{
+  all:unset;
+  cursor:pointer;
+  display:block;
+  width:100%;
+  color:var(--tp);
+  font:inherit;
+}
+.home-fm .user-link-btn:hover{color:var(--or)}
+.home-fm .user-link-btn:focus-visible{
+  outline:1px solid var(--or);
+  outline-offset:2px;
+  border-radius:2px;
+}
+.home-fm .insight-user-btn{
+  all:unset;
+  cursor:pointer;
+  color:var(--tp);
+  font:inherit;
+  font-weight:700;
+}
+.home-fm .insight-user-btn:hover{color:var(--or)}
+.home-fm .user-modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(2,6,23,.7);
+  backdrop-filter:blur(2px);
+  z-index:120;
+  display:grid;
+  place-items:center;
+  padding:16px;
+}
+.home-fm .user-modal{
+  width:min(420px,100%);
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:linear-gradient(180deg,#0b162a,#081425);
+  box-shadow:0 24px 48px rgba(0,0,0,.42);
+}
+.home-fm .user-modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px;
+  border-bottom:1px solid var(--br);
+}
+.home-fm .user-modal-head h4{
+  margin:0;
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.home-fm .user-modal-close{
+  all:unset;
+  cursor:pointer;
+  color:var(--tm);
+  font-family:var(--f-mono);
+  font-size:12px;
+  padding:4px 6px;
+  border:1px solid var(--br);
+  border-radius:2px;
+}
+.home-fm .user-modal-close:hover{
+  color:var(--or);
+  border-color:var(--or);
+}
+.home-fm .user-modal-body{padding:12px}
+.home-fm .user-ident{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+.home-fm .user-ident strong{
+  display:block;
+  font-size:15px;
+}
+.home-fm .user-ident small{
+  display:block;
+  margin-top:3px;
+  color:var(--tm);
+  font-family:var(--f-mono);
+  font-size:10px;
+}
+.home-fm .user-score-pill{
+  border:1px solid rgba(212,175,55,.45);
+  background:rgba(212,175,55,.1);
+  border-radius:2px;
+  padding:8px 10px;
+  min-width:120px;
+}
+.home-fm .user-score-pill span{
+  display:block;
+  font-size:8px;
+  color:var(--tm);
+  letter-spacing:.1em;
+  font-family:var(--f-mono);
+}
+.home-fm .user-score-pill strong{
+  display:block;
+  margin-top:2px;
+  color:var(--or);
+  font-size:18px;
+  font-family:var(--f-mono);
+}
+.home-fm .user-modal-grid{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+}
+.home-fm .user-modal-grid .cell{
+  border:1px solid var(--br);
+  background:rgba(17,29,53,.35);
+  border-radius:2px;
+  padding:8px 6px;
+  text-align:center;
+}
+.home-fm .user-modal-grid .cell span{
+  display:block;
+  font-size:8px;
+  color:var(--tm);
+  letter-spacing:.1em;
+  font-family:var(--f-mono);
+}
+.home-fm .user-modal-grid .cell strong{
+  display:block;
+  margin-top:4px;
+  font-size:12px;
+  font-family:var(--f-mono);
+}
+.home-fm .user-modal-grid .cell.puan strong{color:#facc15}
+.home-fm .user-modal-grid .cell.skor strong{color:#22c55e}
+.home-fm .user-modal-grid .cell.taraf strong{color:#60a5fa}
+.home-fm .user-modal-grid .cell.averaj strong{color:#fb923c}
+@media (max-width:640px){
+  .home-fm .user-modal-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+.home-fm .form-dots{
+  display:flex;
+  align-items:center;
+  gap:3px;
+}
+.home-fm .form-dots i{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#334155;
+}
+.home-fm .form-dots i.ok{background:#22c55e}
+.home-fm .form-dots i.bad{background:#ef4444}
+
+.home-fm .insights-list{margin-top:8px}
+.home-fm .insight-item{
+  border-left:2px solid var(--or);
+  background:rgba(17,29,53,.3);
+  border-right:1px solid var(--br);
+  border-top:1px solid var(--br);
+  border-bottom:1px solid var(--br);
+  border-radius:2px;
+  padding:7px;
+  margin-bottom:6px;
+  font-size:11px;
+}
+.home-fm .insight-item small{
+  display:block;
+  margin-top:3px;
+  color:var(--tm);
+  font-size:9px;
+}
+.home-fm .insight-item.green{border-left-color:#22c55e}
+.home-fm .insight-item.red{border-left-color:#ef4444}
+
+.home-fm .sim-progress{margin-top:8px}
+.home-fm .sim-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-family:var(--f-mono);
+  margin-bottom:4px;
+}
+.home-fm .sim-row strong{font-size:12px;color:var(--tp)}
+
+.my-fm .my-banner{
+  min-height:96px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:linear-gradient(110deg,rgba(7,13,24,.95) 0%,rgba(26,42,74,.88) 62%,rgba(212,175,55,.14) 100%);
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px;
+}
+.my-fm .my-banner-left{display:flex;gap:12px;align-items:flex-start}
+.my-fm .my-badge{
+  width:64px;height:64px;border:1px solid var(--br);border-radius:2px;
+  display:grid;place-items:center;background:rgba(5,10,20,.7);
+  color:var(--or);font-family:var(--f-head);font-weight:800;font-size:22px;
+}
+.my-fm .my-overline{
+  font-size:10px;color:var(--or);font-family:var(--f-mono);letter-spacing:.12em
+}
+.my-fm h2{
+  font-family:var(--f-head);font-size:24px;line-height:1.1;letter-spacing:.03em;margin-top:3px;color:#f4f7fb
+}
+.my-fm .my-meta{
+  margin-top:8px;display:flex;gap:8px;align-items:center;
+  font-size:10px;color:var(--ts);text-transform:uppercase;letter-spacing:.1em
+}
+.my-fm .my-next-box{
+  min-width:250px;border:1px solid var(--br);border-radius:2px;background:rgba(5,10,20,.5);
+  padding:10px;text-align:right
+}
+.my-fm .my-next-label{font-family:var(--f-mono);font-size:9px;color:var(--tm);letter-spacing:.1em}
+.my-fm .my-next-match{margin-top:3px;font-size:13px;font-family:var(--f-head);font-weight:700}
+.my-fm .my-next-time{margin-top:4px;font-size:10px;color:var(--ts);font-family:var(--f-mono)}
+.my-fm .my-next-cd{margin-top:5px;font-size:16px;color:var(--or);font-family:var(--f-mono);font-weight:700}
+
+.my-fm .my-stats-grid{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+}
+.my-fm .my-stat{
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:linear-gradient(180deg,rgba(10,18,34,.95),rgba(7,13,24,.95));
+  padding:10px;
+  transition:transform .22s cubic-bezier(.22,1,.36,1),border-color .22s,box-shadow .22s,background .22s;
+  will-change:transform;
+}
+.my-fm .my-stat:hover{
+  transform:translateY(-2px) scale(1.02);
+  border-color:rgba(212,175,55,.5);
+  background:linear-gradient(180deg,rgba(212,175,55,.12),rgba(7,13,24,.96));
+  box-shadow:0 8px 18px rgba(0,0,0,.28),0 0 14px rgba(212,175,55,.18);
+}
+.my-fm .my-stat:active{
+  transform:translateY(-1px) scale(1.01);
+}
+.my-fm .my-stat span{
+  display:block;
+  font-family:var(--f-mono);
+  font-size:8px;
+  letter-spacing:.1em;
+  color:var(--tm);
+}
+.my-fm .my-stat strong{
+  display:block;
+  margin-top:4px;
+  font-family:var(--f-mono);
+  font-size:22px;
+  color:var(--tp);
+}
+.my-fm .my-stat small{
+  display:block;
+  margin-top:2px;
+  font-size:10px;
+  color:var(--ts);
+}
+
+.my-fm .my-workspace{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:330px minmax(0,1fr);
+  gap:10px;
+  align-items:start;
+}
+.my-fm .my-side-note{
+  margin-top:10px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:rgba(10,18,34,.85);
+  padding:10px;
+}
+.my-fm .my-side-note p{
+  margin-top:8px;
+  font-size:11px;
+  line-height:1.6;
+  color:var(--ts);
+}
+.my-fm .my-main-panel{
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:linear-gradient(180deg,rgba(10,18,34,.96),rgba(7,13,24,.97));
+  padding:10px;
+}
+.my-fm .my-tabs{
+  display:flex;
+  gap:6px;
+  border-bottom:1px solid var(--br);
+  padding-bottom:10px;
+}
+.my-fm .my-tab{
+  border:1px solid var(--br);
+  background:#0b162a;
+  color:var(--ts);
+  border-radius:2px;
+  padding:7px 10px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-family:var(--f-head);
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.my-fm .my-tab span{
+  display:inline-grid;
+  place-items:center;
+  min-width:20px;
+  height:16px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  font-family:var(--f-mono);
+  font-size:9px;
+  color:var(--tm);
+}
+.my-fm .my-tab.active{
+  color:var(--or);
+  border-color:rgba(212,175,55,.4);
+  background:rgba(26,42,74,.5);
+}
+.my-fm .my-tab.active span{
+  color:#050a14;
+  border-color:var(--or);
+  background:var(--or);
+}
+.my-fm .my-tab-body{padding-top:10px}
+.my-fm .my-empty{
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:rgba(17,29,53,.3);
+  padding:24px 16px;
+  text-align:center;
+}
+.my-fm .my-empty-title{
+  font-family:var(--f-head);
+  font-size:16px;
+  letter-spacing:.08em;
+  color:var(--or);
+}
+.my-fm .my-empty-text{
+  margin-top:6px;
+  font-size:12px;
+  color:var(--ts);
+  line-height:1.6;
+}
+
+/* Prediction cards: slightly larger team/flag without changing card footprint */
+.pred-card .wf-sm{--fw:20px;--fh:14px}
+.pred-card .mboard-name{font-size:13px}
+.pred-card .mboard-team{gap:7px}
+
+.rules-fm .rules-banner{
+  min-height:96px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:linear-gradient(110deg,rgba(7,13,24,.95) 0%,rgba(26,42,74,.9) 62%,rgba(212,175,55,.14) 100%);
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px;
+}
+.rules-fm .rules-banner-left{display:flex;gap:12px;align-items:flex-start}
+.rules-fm .rules-badge{
+  width:64px;height:64px;border:1px solid var(--br);border-radius:2px;
+  display:grid;place-items:center;background:rgba(5,10,20,.7);
+  color:var(--or);font-family:var(--f-head);font-weight:800;font-size:22px;
+}
+.rules-fm .rules-overline{font-size:10px;color:var(--or);font-family:var(--f-mono);letter-spacing:.12em}
+.rules-fm h2{
+  font-family:var(--f-head);
+  font-size:24px;
+  line-height:1.1;
+  letter-spacing:.03em;
+  margin-top:3px;
+  color:#f4f7fb;
+}
+.rules-fm .rules-sub{
+  margin-top:8px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  font-size:10px;
+  color:var(--ts);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.rules-fm .rules-banner-right{
+  min-width:260px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:rgba(5,10,20,.52);
+  padding:10px;
+  text-align:right;
+}
+.rules-fm .rules-banner-right small{
+  display:block;
+  font-size:9px;
+  color:var(--tm);
+  font-family:var(--f-mono);
+  letter-spacing:.1em;
+}
+.rules-fm .rules-banner-right strong{
+  display:block;
+  margin-top:6px;
+  font-family:var(--f-head);
+  font-size:13px;
+}
+.rules-fm .rules-banner-right span{
+  display:block;
+  margin-top:5px;
+  font-size:11px;
+  color:var(--or);
+  font-family:var(--f-mono);
+}
+
+.rules-fm .rules-grid{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:6fr 4fr;
+  gap:10px;
+  align-items:start;
+}
+.rules-fm .rules-stack{
+  display:grid;
+  gap:10px;
+}
+.rules-fm .rules-card{
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:linear-gradient(180deg,rgba(10,18,34,.96),rgba(7,13,24,.97));
+  padding:12px;
+}
+.rules-fm .rules-lead{
+  margin-top:8px;
+  font-size:13px;
+  line-height:1.7;
+  color:var(--ts);
+}
+.rules-fm .rules-score{
+  margin-top:8px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  overflow:hidden;
+}
+.rules-fm .rules-score-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:8px 10px;
+  border-top:1px solid var(--br);
+}
+.rules-fm .rules-score-row:first-child{border-top:none}
+.rules-fm .rules-score-row span{
+  font-size:12px;
+  color:var(--ts);
+}
+.rules-fm .rules-score-row strong{
+  font-family:var(--f-mono);
+  font-size:15px;
+  color:var(--green);
+}
+.rules-fm .rules-notes{
+  margin-top:8px;
+  font-size:12px;
+  color:var(--ts);
+  line-height:1.7;
+  padding-left:16px;
+}
+.rules-fm .rules-notes li{margin:3px 0}
+.rules-fm .rules-chips{
+  margin-top:8px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.rules-fm .rules-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid rgba(96,165,250,.25);
+  background:rgba(96,165,250,.1);
+  color:#9ec5ff;
+  font-size:11px;
+  font-weight:600;
+}
+.rules-fm .rules-note-orange{border-color:rgba(212,175,55,.34)}
+.rules-fm .rules-note-purple{border-color:rgba(167,139,250,.32)}
+.rules-fm .rules-note-blue{border-color:rgba(96,165,250,.32)}
+
+@keyframes dotPulse{
+  0%,100%{transform:scale(1);opacity:.95}
+  50%{transform:scale(1.35);opacity:.55}
+}
+@keyframes sysTicker{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+@media(max-width:1200px){
+  .home-fm .fm-grid{grid-template-columns:1fr 1fr}
+  .home-fm [data-col="right"]{grid-column:span 2}
+  .my-fm .my-stats-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .my-fm .my-workspace{grid-template-columns:1fr}
+}
+@media(max-width:980px){
+  .app-root.fm-shell .sidebar{width:72px}
+  .app-root.fm-shell .sb-logo{justify-content:center}
+  .app-root.fm-shell .fm-logo-meta{display:none}
+  .app-root.fm-shell .nav-item{justify-content:center}
+  .app-root.fm-shell .nav-item>span:last-child{display:none}
+  .app-root.fm-shell .main-shell{margin-left:72px;width:calc(100% - 72px)}
+  .app-root.fm-shell .sys-footer{left:72px}
+  .app-root.fm-shell .ctrl-breadcrumb span:nth-child(1),
+  .app-root.fm-shell .ctrl-breadcrumb span:nth-child(2),
+  .app-root.fm-shell .ctrl-breadcrumb span:nth-child(3){display:none}
+}
+@media(max-width:760px){
+  .app-root.fm-shell .ctrl-search-wrap{display:none}
+  .home-fm .context-banner{flex-direction:column}
+  .home-fm .context-next{text-align:left;min-width:0}
+  .home-fm .fm-grid{grid-template-columns:1fr}
+  .home-fm [data-col="right"]{grid-column:1}
+  .home-fm .data-split{grid-template-columns:1fr}
+  .home-fm .recap-head,.home-fm .recap-row{grid-template-columns:46px 1fr 56px 1fr 48px}
+  .home-fm .intel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .my-fm .my-banner{flex-direction:column}
+  .my-fm .my-next-box{text-align:left;min-width:0}
+  .my-fm .my-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .my-fm .my-tabs{overflow:auto;white-space:nowrap}
+  .my-fm .my-tab{flex:0 0 auto}
+  .rules-fm .rules-banner{flex-direction:column}
+  .rules-fm .rules-banner-right{text-align:left;min-width:0}
+  .rules-fm .rules-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .app-root.fm-shell .sidebar{
+    width:100%;
+    height:58px;
+    top:auto;
+    bottom:24px;
+    border-right:none;
+    border-top:1px solid var(--br);
+    z-index:50;
+  }
+  .app-root.fm-shell .sb-logo,.app-root.fm-shell .sb-user{display:none}
+  .app-root.fm-shell .sb-nav{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    padding:0;
+  }
+  .app-root.fm-shell .nav-item{
+    margin:0;
+    border:none;
+    border-radius:0;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    font-size:9px;
+  }
+  .app-root.fm-shell .nav-item>span:last-child{display:block}
+  .app-root.fm-shell .main-shell{margin-left:0;width:100%}
+  .app-root.fm-shell .ctrl-header{padding:0 8px}
+  .app-root.fm-shell .ctrl-breadcrumb{font-size:9px}
+  .app-root.fm-shell .continue-btn{padding:0 9px}
+  .app-root.fm-shell .app-main{padding:10px 8px 76px}
+  .app-root.fm-shell .sys-footer{
+    left:0;
+    gap:10px;
+    font-size:8px;
+    padding:0 8px;
+  }
+  .app-root.fm-shell .sys-time-box{height:16px;padding:0 6px}
+  .app-root.fm-shell .sys-ticker-track{gap:34px}
+  .my-fm .my-stats-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -890,7 +2225,7 @@ const ALL_TEAMS=[...new Set(MATCHES.flatMap(m=>[m.h,m.a]))].filter(t=>!t.startsW
 const TR3=3*60;
 const toTR=u=>new Date(new Date(u).getTime()+TR3*60000);
 const fmtTR=u=>{const d=toTR(u);return String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')};
-const fmtDateFull=u=>{const d=toTR(u);const days=['Pazar','Pazartesi','Salı','Çaramba','Perşembe','Cuma','Cumartesi'];const months=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Austos','Eylül','Ekim','Kasım','Aralık'];return days[d.getUTCDay()]+' '+d.getUTCDate()+' '+months[d.getUTCMonth()]};
+const fmtDateFull=u=>{const d=toTR(u);const days=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];const months=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Austos','Eylül','Ekim','Kasım','Aralık'];return days[d.getUTCDay()]+' '+d.getUTCDate()+' '+months[d.getUTCMonth()]};
 const fmtDateShort=u=>{const d=toTR(u);return String(d.getUTCDate()).padStart(2,'0')+'.'+String(d.getUTCMonth()+1).padStart(2,'0')};
 const fmtDateKey=u=>{const d=toTR(u);return`${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`};
 const sameDay=(u,now)=>{const tr=toTR(u);const nt=new Date(now.getTime()+TR3*60000);return tr.getUTCFullYear()===nt.getUTCFullYear()&&tr.getUTCMonth()===nt.getUTCMonth()&&tr.getUTCDate()===nt.getUTCDate()};
@@ -1156,7 +2491,7 @@ function processUserProfileScores(scores,tournamentId){
 }
 
 const FLAGS={'Meksika':'','Güney Afrika':'','Güney Kore':'','Kanada':'','İsviçre':'','Katar':'','ABD':'','Paraguay':'','Avustralya':'','Brezilya':'','Fas':'','Haiti':'','İskoçya':'󠁧󠁢󠁳󠁣󠁴󠁿','Almanya':'','Curaçao':'','Hollanda':'','Japonya':'','Fildişi Sah.':'','Ekvador':'','İspanya':'','Yeşil Burun A.':'','Belçika':'','Mısır':'','Suudi Arabistan':'','Uruguay':'','İran':'','Yeni Zelanda':'','Fransa':'','Senegal':'','Norveç':'','Arjantin':'','Cezayir':'','Avusturya':'','Ürdün':'','Portekiz':'','Özbekistan':'','İngiltere':'󠁧󠁢󠁥󠁮󠁧󠁿','Hırvatistan':'','Gana':'','Panama':'','Kolombiya':'','Tunus':''};
-const flag=t=>FLAGS[t]||'️';
+const flag=t=>FLAGS[t]||'ï¸';
 
 const COUNTRY_CODES={'Meksika':'mx','Güney Afrika':'za','Güney Kore':'kr','Kanada':'ca','İsviçre':'ch','Katar':'qa','ABD':'us','Paraguay':'py','Avustralya':'au','Brezilya':'br','Fas':'ma','Haiti':'ht','İskoçya':'gb-sct','Almanya':'de','Curaçao':'cw','Hollanda':'nl','Japonya':'jp','Fildişi Sah.':'ci','Ekvador':'ec','İspanya':'es','Yeşil Burun A.':'cv','Belçika':'be','Mısır':'eg','Suudi Arabistan':'sa','Uruguay':'uy','İran':'ir','Yeni Zelanda':'nz','Fransa':'fr','Senegal':'sn','Norveç':'no','Arjantin':'ar','Cezayir':'dz','Avusturya':'at','Ürdün':'jo','Portekiz':'pt','Özbekistan':'uz','İngiltere':'gb-eng','Hırvatistan':'hr','Gana':'gh','Panama':'pa','Kolombiya':'co','Tunus':'tn'};
 const flagSrc=t=>{const c=COUNTRY_CODES[t];return c?`https://flagcdn.com/w80/${c}.png`:''};
@@ -1239,7 +2574,7 @@ function AuthScreen({onLogin}){
 }
 function LoginF({flash,msg,nav,onLogin}){
   const [un,setUn]=useState('');const [pw,setPw]=useState('');
-  const go=()=>{if(!un.trim()||!pw)return flash('Kullanıcı adı ve ifre giriniz');const users=S.get('users')||{};const key=un.trim().toLowerCase();let u=users[key];if(!u)return flash('Kullanıcı bulunamadı');if(u.passwordHash!==hash(pw))return flash('Şifre hatalı');if(key===ADMIN_USERNAME&&u.role!=='admin'){ u.role='admin'; users[key]=u; S.set('users',users);}S.set('session',{username:u.username});onLogin(u)};
+  const go=()=>{if(!un.trim()||!pw)return flash('Kullanıcı adı ve şifre giriniz');const users=S.get('users')||{};const key=un.trim().toLowerCase();let u=users[key];if(!u)return flash('Kullanıcı bulunamadı');if(u.passwordHash!==hash(pw))return flash('Şifre hatalı');if(key===ADMIN_USERNAME&&u.role!=='admin'){ u.role='admin'; users[key]=u; S.set('users',users);}S.set('session',{username:u.username});onLogin(u)};
   return<div className="auth-card"><div className="auth-media"><video autoPlay muted loop playsInline preload="metadata"><source src="./intro/WorldCup2026-intro.mp4" type="video/mp4"/></video></div><div className="auth-content"><div className="auth-line"/><Logo/><div className="auth-h"><h2>GİRİŞ YAP</h2><p>Hesabınıza giriş yaparak tahminlerinizi yapın</p></div><Msg msg={msg}/><Field label="Kullanıcı Adı" placeholder="kullanici_adi" value={un} onChange={e=>setUn(e.target.value)} onKeyDown={e=>e.key==='Enter'&&go()} autoComplete="username"/><Field label="Şifre" type="password" placeholder="" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==='Enter'&&go()} autoComplete="current-password"/><button className="btn-p" onClick={go}>GİRİŞ YAP</button><div className="divider"><span>veya</span></div><button className="btn-g" onClick={()=>nav('register')}>Yeni Hesap Oluştur</button><div style={{textAlign:'center',marginTop:14}}><button className="tl" onClick={()=>nav('reset')}>Şifremi Unuttum</button></div></div></div>;
 }
 function RegisterF({flash,msg,nav,onLogin}){
@@ -1262,7 +2597,7 @@ function ResetF({flash,msg,nav}){
   const [step,setStep]=useState(1);const [un,setUn]=useState('');const [q,setQ]=useState('');const [sa,setSa]=useState('');const [pw,setPw]=useState('');const [con,setCon]=useState('');
   const s1=()=>{if(!un.trim())return flash('Kullanıcı adı giriniz');const u=(S.get('users')||{})[un.trim().toLowerCase()];if(!u)return flash('Kullanıcı bulunamadı');setQ(u.securityQuestion);flash(null);setStep(2)};
   const s2=()=>{if(!sa.trim())return flash('Cevap giriniz');const u=(S.get('users')||{})[un.trim().toLowerCase()];if(!u||hash(sa.trim().toLowerCase())!==u.securityAnswerHash)return flash('Cevap yanlış');flash(null);setStep(3)};
-  const s3=()=>{if(!pw||pw.length<6)return flash('Şifre en az 6 karakter');if(pw!==con)return flash('Şifreler elemiyor');const users=S.get('users')||{};users[un.trim().toLowerCase()].passwordHash=hash(pw);S.set('users',users);flash('Şifre güncellendi!','success');setTimeout(()=>nav('login'),2200)};
+  const s3=()=>{if(!pw||pw.length<6)return flash('Şifre en az 6 karakter');if(pw!==con)return flash('Şifreler eşleşmiyor');const users=S.get('users')||{};users[un.trim().toLowerCase()].passwordHash=hash(pw);S.set('users',users);flash('Şifre güncellendi!','success');setTimeout(()=>nav('login'),2200)};
   return<div className="auth-card"><div className="auth-line"/><Logo size="sm"/><div className="auth-h"><h2>ŞİFRE SIFIRLA</h2><p>3 adımda şifrenizi yenileyin</p></div><div className="step-bar">{[1,2,3].map(s=><span key={s} className={step>s?'done':step===s?'active':''}/>)}</div><Msg msg={msg}/>{step===1&&<><p style={{fontSize:13,color:'var(--ts)',marginBottom:14}}>Kayıtlı kullanıcı adınızı girin</p><Field label="Kullanıcı Adı" placeholder="kullanici_adi" value={un} onChange={e=>setUn(e.target.value)} onKeyDown={e=>e.key==='Enter'&&s1()}/><button className="btn-p" onClick={s1}>DEVAM ET </button></>}{step===2&&<><div style={{background:'rgba(255,107,0,.07)',border:'1px solid rgba(255,107,0,.22)',borderRadius:10,padding:'12px 14px',marginBottom:14,fontSize:13,color:'#FF9A40',lineHeight:1.5}}><strong>Güvenlik Sorusu:</strong><br/>{q}</div><Field label="Cevabınız" value={sa} onChange={e=>setSa(e.target.value)} onKeyDown={e=>e.key==='Enter'&&s2()}/><button className="btn-p" onClick={s2}>DEVAM ET </button></>}{step===3&&<><Field label="Yeni Şifre (min 6)" type="password" placeholder="" value={pw} onChange={e=>setPw(e.target.value)} autoComplete="new-password"/><Field label="Şifre Tekrar" type="password" placeholder="" value={con} onChange={e=>setCon(e.target.value)} onKeyDown={e=>e.key==='Enter'&&s3()} autoComplete="new-password"/><button className="btn-p" onClick={s3}>ŞİFREYİ GÜNCELLE </button></>}<button className="btn-g" onClick={()=>nav('login')} style={{marginTop:8}}> Giriş Sayfasına Dön</button></div>;
 }
 
@@ -1271,11 +2606,16 @@ function MainApp({currentUser,onLogout}){
   ensureMertAdmin();
   const [active,setActive]=useState('home');
   const [user,setUser]=useState(currentUser);
+  const [clock,setClock]=useState(new Date());
   const [scores,setScores]=useState(()=>S.get('scores')||{});
   const [liveSync,setLiveSync]=useState({ ok:false, last:null });
   const scoresKey=useMemo(()=>JSON.stringify(scores),[scores]);
   const refreshUser=()=>{const users=S.get('users')||{};const u=users[user.username];if(u)setUser({...u})};
   useEffect(()=>{ensureMertAdmin();},[]);
+  useEffect(()=>{
+    const cid=setInterval(()=>setClock(new Date()),1000);
+    return()=>clearInterval(cid);
+  },[]);
   useEffect(()=>{
     migrateUserScoreFields();
     processUserProfileScores(scores,USER_SCORE_TOURNAMENT_ID);
@@ -1297,115 +2637,373 @@ function MainApp({currentUser,onLogout}){
     const id=setInterval(tick,45000);
     return()=>{cancelled=true;clearInterval(id);};
   },[]);
-  const MENU=[{id:'home',icon:'',label:'Ana Sayfa'},{id:'my',icon:'⭐',label:'Benim Sayfam'},{id:'rules',icon:'',label:'Kurallar'}];
-  return<div className="app-root"><HexBg/>
-    <aside className="sidebar">
-      <div className="sb-logo"><Logo size="sm"/></div>
-      <nav className="sb-nav">{MENU.map(item=><div key={item.id} className={`nav-item${active===item.id?' active':''}`} onClick={()=>setActive(item.id)}><span className="nav-icon">{item.icon}</span><span>{item.label}</span></div>)}</nav>
-      <div className="sb-user"><div className="user-badge"><div className="user-disp">{user.displayName}</div><div className="user-un">@{user.username}{user.role==='admin'&&<span className="badge-admin">Admin</span>}</div></div><button className="btn-d" onClick={()=>{S.del('session');onLogout()}}>Çıkış Yap</button></div>
+
+  const MENU=[
+    {id:'home',icon:'DB',label:'Dashboard'},
+    {id:'my',icon:'MY',label:'Benim Sayfam'},
+    {id:'rules',icon:'RL',label:'Kurallar'}
+  ];
+  const activeMenu=MENU.find(m=>m.id===active)||MENU[0];
+  const footerTime=clock.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  const headerDate=clock.toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'});
+
+  return<div className="app-root fm-shell"><HexBg/>
+    <aside className="sidebar fm-sidebar">
+      <div className="sb-logo">
+        <div className="fm-logo-box"><img src="./worldcup1.png" alt="FIFA World Cup" /></div>
+        <div className="fm-logo-meta">
+          <div className="fm-logo-title">WC26 PRO</div>
+          <div className="fm-logo-sub">SIM CORE</div>
+        </div>
+      </div>
+      <nav className="sb-nav">
+        {MENU.map(item=><div key={item.id} className={`nav-item${active===item.id?' active':''}`} onClick={()=>setActive(item.id)}>
+          <span className="nav-icon">{item.icon}</span>
+          <span>{item.label}</span>
+        </div>)}
+      </nav>
+      <div className="sb-user">
+        <div className="user-badge">
+          <div className="user-disp">{user.displayName}</div>
+          <div className="user-un">@{user.username}{user.role==='admin'&&<span className="badge-admin">Admin</span>}</div>
+        </div>
+        <button className="btn-d" onClick={()=>{S.del('session');onLogout()}}>Çıkış Yap</button>
+      </div>
     </aside>
-    <main className="app-main">
-      {active==='home'&&<HomeScreen currentUser={user} scores={scores} liveSync={liveSync}/>}
-      {active==='my'&&<MyScreen currentUser={user} onUserUpdate={refreshUser} scores={scores}/>}
-      {active==='rules'&&<RulesScreen/>}
-    </main>
+
+    <div className="main-shell">
+      <header className="ctrl-header">
+        <div className="ctrl-left">
+          <div className="ctrl-breadcrumb">
+            <span>WC26</span>
+            <span>/</span>
+            <span>Sezon 2026</span>
+            <span>/</span>
+            <strong>{activeMenu.label}</strong>
+          </div>
+        </div>
+        <div className="ctrl-right">
+          <div className="ctrl-search-wrap">
+            <input className="ctrl-search" placeholder="Takım, maç veya kullanıcı ara" />
+          </div>
+          <div className={`sync-pill${liveSync.ok?' ok':''}`}>
+            <span className="sync-dot"/>
+            <span>{liveSync.ok?'READY':'SYNCING'}</span>
+          </div>
+          <button className="continue-btn" type="button">{headerDate}</button>
+        </div>
+      </header>
+
+      <main className="app-main">
+        {active==='home'&&<HomeScreen currentUser={user} scores={scores} liveSync={liveSync}/>}
+        {active==='my'&&<MyScreen currentUser={user} onUserUpdate={refreshUser} scores={scores}/>}
+        {active==='rules'&&<RulesScreen/>}
+      </main>
+
+      <footer className="sys-footer">
+        <div className="sys-ticker-wrap" aria-hidden="true">
+          <div className="sys-ticker-track">
+            <span>Bu platform eğlence amaçlı bir tahmin oyunudur.</span>
+            <span>Bu platform eğlence amaçlı bir tahmin oyunudur.</span>
+          </div>
+        </div>
+        <div className="sys-time-box">
+          <span className="sys-time">TR SAAT: {footerTime}</span>
+        </div>
+      </footer>
+    </div>
   </div>;
 }
-
 /*  ANA SAYFA  */
 function HomeScreen({currentUser,scores,liveSync}){
   const [now,setNow]=useState(new Date());
-  const [tab,setTab]=useState('today');
+  const [selectedMatchId,setSelectedMatchId]=useState(null);
+  const [selectedUserKey,setSelectedUserKey]=useState(null);
   useEffect(()=>{const id=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(id)},[]);
+
   const users=S.get('users')||{};
-  const myPreds=useMemo(()=>S.get('preds_'+currentUser.username)||{},[currentUser.username]);
 
   const enriched=useMemo(()=>MATCHES.map(m=>({...m,status:getMatchStatus(m,now,scores),ls:getLockState(m,now)})),[now,scores]);
   const today=enriched.filter(m=>sameDay(m.utc,now));
   const live=enriched.filter(m=>m.status==='live');
-  const upcoming6=enriched.filter(m=>m.status==='upcoming').slice(0,6);
+  const upcoming=enriched.filter(m=>m.status==='upcoming');
   const finished=enriched.filter(m=>m.status==='finished');
   const nextM=enriched.find(m=>m.status==='upcoming');
   const preTournament=now<new Date('2026-06-11T19:00:00Z');
   const cdTarget=preTournament?new Date('2026-06-11T19:00:00Z'):nextM?new Date(nextM.utc):null;
   const cdVal=cdTarget?cdText(cdTarget.toISOString(),now):null;
   const lb=useMemo(()=>computeLeaderboard(users,scores),[users,scores,now]);
-  const byDate=useMemo(()=>{const m={};enriched.forEach(x=>{const k=fmtDateKey(x.utc);(m[k]=m[k]||[]).push(x)});return m},[enriched]);
 
-  return<div>
-    <div className="pg-title">ANA SAYFA</div>
-    <div className="pg-sub">Puan durumu, maç takvimi ve istatistikler</div>
-    {liveSync?.last&&<div style={{fontSize:11,color:'var(--tm)',marginBottom:10,lineHeight:1.5}}>Canlı skorlar otomatik güncellenir (kimse manuel düzenleyemez). Son senkron: {new Date(liveSync.last).toLocaleString('tr-TR')}</div>}
+  const matchdayRows=useMemo(()=>{
+    const activeDay=[...live,...today.filter(m=>m.status!=='live')];
+    if(activeDay.length>0){
+      const uniq=Object.values(activeDay.reduce((acc,m)=>{acc[m.id]=m;return acc;},{}));
+      return uniq.sort((a,b)=>new Date(a.utc)-new Date(b.utc));
+    }
+    if(nextM){
+      const nextKey=fmtDateKey(nextM.utc);
+      return enriched.filter(m=>fmtDateKey(m.utc)===nextKey).sort((a,b)=>new Date(a.utc)-new Date(b.utc));
+    }
+    return [];
+  },[live,today,nextM,enriched]);
+  const rankingDayKey=matchdayRows[0]?fmtDateKey(matchdayRows[0].utc):null;
+  const topDailyRanking=useMemo(()=>{
+    if(!rankingDayKey) return [];
+    const dayMatches=MATCHES.filter(m=>fmtDateKey(m.utc)===rankingDayKey);
+    const rows=Object.values(users).map(u=>{
+      const preds=S.get('preds_'+u.username)||{};
+      let dayPts=0,exact=0,correct=0,played=0;
+      dayMatches.forEach(m=>{
+        const pred=preds[m.id];
+        const sc=scores[m.id];
+        if(!pred||!sc||typeof sc.h!=='number'||typeof sc.a!=='number') return;
+        played++;
+        const p=ruleMatchPoints(m,pred,sc);
+        dayPts+=p;
+        if(pred.h===sc.h&&pred.a===sc.a) exact++;
+        if(outcome(pred.h,pred.a)===outcome(sc.h,sc.a)) correct++;
+      });
+      const form=played?Math.round((correct/played)*100):0;
+      return{...u,dayPts,exact,correct,played,form};
+    });
+    return rows.sort((a,b)=>(b.dayPts-a.dayPts||b.exact-a.exact||b.correct-a.correct||a.displayName.localeCompare(b.displayName,'tr'))).slice(0,3);
+  },[rankingDayKey,users,scores]);
 
-    <div data-layout="hero-row" style={{display:'grid',gridTemplateColumns:'1fr 270px',gap:16,marginBottom:22,alignItems:'start'}}>
-      <div className="hero-cd">
-        <div className="hc-label">{live.length>0?<span style={{display:'flex',alignItems:'center',gap:8}}><span className="hc-dot"/><span>CANLI MAÇ</span></span>:<span>{preTournament?'⏱ TURNUVAYA KALAN':'⏱ SONRAKİ MAÇA KALAN'}</span>}</div>
-        {cdVal?<div className="hc-time">{cdVal}</div>:<div className="hc-time" style={{color:'var(--green)'}}>DEVAM EDİYOR</div>}
-        {nextM&&<div className="hc-sub"><strong style={{color:'var(--tp)'}}>{nextM.h} vs {nextM.a}</strong>{'  '}{fmtDateFull(nextM.utc)}{' '}<strong style={{color:'var(--or)'}}>{fmtTR(nextM.utc)} TR</strong>{' · '}{nextM.city}</div>}
-        {preTournament&&<div className="hc-sub" style={{marginTop:4,color:'var(--tm)'}}>İlk maç: 11 Haziran 2026 · Meksika vs Güney Afrika · <strong style={{color:'var(--or)'}}>22:00 TR</strong></div>}
-      </div>
-      <div style={{display:'flex',flexDirection:'column',gap:10}}>
-        <div className="stat"><div className="stat-icon"></div><div className="stat-lbl">Oyuncular</div><div className="stat-val">{Object.keys(users).length}</div><div className="stat-sub">kayıtlı kullanıcı</div></div>
-        <div className="stat"><div className="stat-icon"></div><div className="stat-lbl">Fikstür</div><div className="stat-val">72</div><div className="stat-sub">grup aşaması maçı</div></div>
-      </div>
-    </div>
+  useEffect(()=>{
+    if(selectedMatchId==null) return;
+    if(!matchdayRows.some(m=>m.id===selectedMatchId)) setSelectedMatchId(null);
+  },[matchdayRows,selectedMatchId]);
 
-    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr minmax(340px,1.05fr)',gap:16,alignItems:'start'}}>
-      <div data-col="right" style={{gridColumn:'span 2'}}>
-        <div className="tabs">
-          <button className={`tab${tab==='today'?' active':''}`} onClick={()=>setTab('today')}>Bugün{today.length>0?` (${today.length})`:''}</button>
-          <button className={`tab${tab==='upcoming'?' active':''}`} onClick={()=>setTab('upcoming')}>Yaklaşan</button>
-          <button className={`tab${tab==='results'?' active':''}`} onClick={()=>setTab('results')}>Sonuçlar</button>
-          <button className={`tab${tab==='all'?' active':''}`} onClick={()=>setTab('all')}>Tüm Fikstür</button>
+  const selectedMatch=useMemo(()=>{
+    if(selectedMatchId==null) return null;
+    return enriched.find(m=>m.id===selectedMatchId)||null;
+  },[selectedMatchId,enriched]);
+
+  const selectedIntel=useMemo(()=>{
+    if(!selectedMatch) return null;
+    const eventsRoot=S.get('matchEvents')||{};
+    const tourEvents=eventsRoot[USER_SCORE_TOURNAMENT_ID]||{};
+    const ev=tourEvents[selectedMatch.id]||{};
+    const sc=scores[selectedMatch.id]||{};
+    const readNum=(...vals)=>{
+      for(const v of vals){
+        const n=Number(v);
+        if(Number.isFinite(n)) return n;
+      }
+      return 0;
+    };
+    return{
+      redCards:Math.max(0,readNum(ev.redCards,sc.redCards,0)),
+      missedPenalties:Math.max(0,readNum(ev.missedPenalties,sc.missedPenalties,0)),
+      savedPenalties:Math.max(0,readNum(ev.savedPenalties,sc.savedPenalties,0)),
+      hattrick:(ev.hattrick===true||sc.hattrick===true),
+      penaltyShootout:(ev.penaltyShootout===true||sc.penaltyShootout===true)
+    };
+  },[selectedMatch,scores]);
+
+  const selectedUser=useMemo(()=>{
+    if(!selectedUserKey) return null;
+    const base=users[selectedUserKey];
+    if(!base) return null;
+    const lbRow=lb.find(x=>x.username===selectedUserKey)||{};
+    const dayRow=topDailyRanking.find(x=>x.username===selectedUserKey)||{};
+    return{
+      ...base,
+      totalPoints:lbRow.totalPoints||0,
+      st:lbRow.st||0,
+      tt:lbRow.tt||0,
+      cp:lbRow.potentialPts||0,
+      dayPts:dayRow.dayPts||0
+    };
+  },[selectedUserKey,users,lb,topDailyRanking]);
+
+  const comms=useMemo(()=>{
+    const list=[];
+    if(nextM) list.push({k:'Tactical Report',body:`Sonraki kritik eşleşme: ${nextM.h} vs ${nextM.a}`,tag:fmtTR(nextM.utc)+' TR'});
+    if(live[0]) list.push({k:'Live Feed',body:`Canlı maç açık: ${live[0].h} vs ${live[0].a}`,tag:'LIVE'});
+    if(lb[0]) list.push({k:'Standings',body:`Lider: ${lb[0].displayName} (${lb[0].totalPoints||0} puan)`,tag:'TOP'});
+    while(list.length<3) list.push({k:'System',body:'Turnuva veri akışı stabil çalışıyor.',tag:'OK'});
+    return list.slice(0,3);
+  },[nextM,live,lb]);
+
+  const systemInfos=useMemo(()=>[
+    {tone:'gold',title:'Gün Verisi',txt:'Seçili gün için puanlanan tahmin verisi bekleniyor.'},
+    {tone:'green',title:'Canlı Durum',txt:`Canlı maç sayısı: ${live.length}`},
+    {tone:'red',title:'Kilit Uyarısı',txt:'Maçlardan 60 dakika önce tahminler otomatik kilitlenir.'}
+  ],[live.length]);
+
+  const seasonCompletion=Math.round((finished.length/MATCHES.length)*100)||0;
+
+  return<div className="home-fm">
+    <section className="context-banner">
+      <div className="context-main">
+        <div className="league-badge"><img src="./worldcup1.png" alt="FIFA World Cup 2026" /></div>
+        <div>
+          <div className="context-overline">INTERNATIONAL · TOURNAMENT</div>
+          <h1>FIFA WORLD CUP 2026</h1>
+          <div className="context-meta">
+            <span>{Object.keys(users).length} oyuncu</span>
+            <span>•</span>
+            <span>{MATCHES.length} maç</span>
+            <span>•</span>
+            <span className="status-live"><span className="live-dot"/> {live.length>0?'ACTIVE':'READY'}</span>
+          </div>
         </div>
-        {tab==='today'&&<>
-          {live.length>0&&<><div className="sec-hdr"> Canlı Maçlar</div><div data-match-grid style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:16}}>{live.map(m=><MC key={m.id} m={m} now={now} scores={scores} myPreds={myPreds} showCD/>)}</div></>}
-          {today.length===0?<div style={{background:'rgba(255,107,0,.04)',border:'1px solid var(--bro)',borderRadius:16,padding:'32px 24px',textAlign:'center'}}><div style={{fontSize:44,marginBottom:12}}></div><div style={{fontFamily:"'Bebas Neue'",fontSize:20,letterSpacing:'.1em',marginBottom:8}}>BUGÜN MAÇ YOK</div><div style={{fontSize:13,color:'var(--ts)',lineHeight:1.65}}>Turnuva <strong style={{color:'var(--or)'}}>11 Haziran 2026</strong>'da balıyor.</div></div>:<><div className="sec-hdr">Günün Maçları</div><div data-match-grid style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>{today.filter(m=>m.status!=='live').map(m=><MC key={m.id} m={m} now={now} scores={scores} myPreds={myPreds} showCD/>)}</div></>}
-        </>}
-        {tab==='upcoming'&&<><div className="sec-hdr">Yaklaşan Maçlar</div>{upcoming6.length===0?<div style={{padding:'20px',textAlign:'center',color:'var(--ts)',fontSize:13}}>Tüm maçlar tamamlandı.</div>:<div data-match-grid style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>{upcoming6.map(m=><MC key={m.id} m={m} now={now} scores={scores} myPreds={myPreds} showCD/>)}</div>}</>}
-        {tab==='results'&&<><div className="sec-hdr">Son Sonuçlar</div>{finished.length===0?<div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--br)',borderRadius:14,padding:'28px',textAlign:'center',color:'var(--ts)',fontSize:14}}>Henüz tamamlanan maç yok. Turnuva <strong style={{color:'var(--or)'}}>11 Haziran</strong>'da balıyor!</div>:<div data-match-grid style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>{finished.slice(-6).reverse().map(m=><MC key={m.id} m={m} now={now} scores={scores} myPreds={myPreds}/>)}</div>}</>}
-        {tab==='all'&&<div className="scroll" style={{maxHeight:560}}>
-          {Object.entries(byDate).sort(([a],[b])=>a.localeCompare(b)).map(([dk,ms])=>(
-            <div key={dk}><div className="dt-sep">{fmtDateFull(ms[0].utc)}</div>
-              <div data-match-grid style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:10}}>{ms.map(m=><MC key={m.id} m={m} now={now} scores={scores} myPreds={myPreds} compact/>)}</div>
+      </div>
+      <div className="context-next">
+        <div className="context-next-label">NEXT UP</div>
+        {nextM?<div className="context-next-match">{nextM.h} vs {nextM.a}</div>:<div className="context-next-match">Takvim bekleniyor</div>}
+        <div className="context-next-time">{cdVal?`Başlangıca ${cdVal}`:'Canlı maçlar devam ediyor'}</div>
+      </div>
+    </section>
+
+    {liveSync?.last&&<div className="sync-note">Live skor senkronu: {new Date(liveSync.last).toLocaleString('tr-TR')}</div>}
+
+    <section className="fm-grid fm-grid-dashboard" data-layout="home-3col">
+      <div className="fm-panel">
+        <div className="panel-head">GENEL PUAN DURUMU</div>
+        <div className="standings-table standings-full">
+          <div className="standings-head">
+            <span>#</span>
+            <span>KULLANICI</span>
+            <span className="h-p">PUAN</span>
+            <span className="h-st">SKOR</span>
+            <span className="h-tt">TARAF</span>
+            <span className="h-cp">AVERAJ(+)</span>
+          </div>
+          {lb.map((u,i)=><div key={u.username} className="standings-row">
+            <span>{i+1}</span>
+            <button type="button" className="user-link-btn truncate" onClick={()=>setSelectedUserKey(u.username)}>{u.displayName}</button>
+            <span className="mono val-p">{u.totalPoints||0}</span>
+            <span className="mono val-st">{u.st||0}</span>
+            <span className="mono val-tt">{u.tt||0}</span>
+            <span className="mono val-cp">{u.potentialPts||0}</span>
+          </div>)}
+          {lb.length===0&&<div className="recap-empty">Henüz oyuncu verisi yok.</div>}
+        </div>
+
+        <div className="panel-head mt16">Turnuva Haberleri <span className="panel-tag">{comms.length} NEW</span></div>
+        <div className="comms-list">
+          {comms.map((item,i)=><div key={i} className="comm-item">
+            <div className="comm-k">{item.k}</div>
+            <div className="comm-b">{item.body}</div>
+            <div className="comm-t">{item.tag}</div>
+          </div>)}
+        </div>
+      </div>
+
+      <div className="fm-panel">
+        <div className="panel-head">Günün Maçları</div>
+        <div className="recap-table" style={{marginTop:10}}>
+          <div className="recap-head"><span>STATUS</span><span>HOME</span><span>SCORE</span><span>AWAY</span><span>DETAY</span></div>
+          {matchdayRows.length===0&&<div className="recap-empty">Bu sekmede gösterilecek maç yok.</div>}
+          {matchdayRows.map(m=>{
+            const sc=scores[m.id]||null;
+            const stLabel=m.status==='live'?'LIVE':m.status==='finished'?'FULL TIME':'-';
+            const stClass=m.status==='live'?'live':m.status==='finished'?'full':'idle';
+            const isActive=selectedMatchId===m.id;
+            return<div key={m.id} className={`recap-row clickable${isActive?' active':''}`} onClick={()=>setSelectedMatchId(m.id)}>
+              <span className={`st-chip ${stClass}`}>{stLabel}</span>
+              <span>{m.h}</span>
+              <span className="mono">{sc?`${sc.h}-${sc.a}`:'-'}</span>
+              <span>{m.a}</span>
+              <span className="mono">{isActive?'AÇIK':'İNCELE'}</span>
+            </div>;
+          })}
+        </div>
+      </div>
+
+      <div className="fm-panel right-col" data-col="right">
+        <div className="panel-head">TOP RANKING · GÜNÜN EN İYİ 3</div>
+        <div className="standings-table">
+          <div className="standings-head"><span>RK</span><span>KULLANICI</span><span>P</span><span>FORM</span></div>
+          {topDailyRanking.map((u,i)=><div key={u.username} className="standings-row">
+            <span>{i+1}</span>
+            <button type="button" className="user-link-btn truncate" onClick={()=>setSelectedUserKey(u.username)}>{u.displayName}</button>
+            <span className="mono">{u.dayPts||0}</span>
+            {u.played>0
+              ?<span className="form-dots">
+                <i className={u.form>=60?'ok':'bad'}/>
+                <i className={u.form>=40?'ok':'bad'}/>
+                <i className={u.form>=20?'ok':'bad'}/>
+              </span>
+              :<span className="mono" style={{color:'var(--tm)'}}>-</span>}
+          </div>)}
+          {topDailyRanking.length===0&&<div className="recap-empty">Bugün için performans verisi oluşmadı.</div>}
+        </div>
+
+        <div className="panel-head mt16">SİSTEM BİLGİSİ</div>
+        <div className="insights-list">
+          {systemInfos.map((x,i)=><div key={i} className={`insight-item ${x.tone}`}>
+            <div>{x.username?<button type="button" className="insight-user-btn" onClick={()=>setSelectedUserKey(x.username)}>{x.title}</button>:x.title}</div>
+            <small>{x.txt}</small>
+          </div>)}
+        </div>
+
+        <div className="panel-head mt16">SIMULATION PROGRESS</div>
+        <div className="sim-progress">
+          <div className="sim-row"><span>SEASON COMPLETION</span><strong>{seasonCompletion}%</strong></div>
+          <div className="fm-bar"><i style={{width:`${seasonCompletion}%`}}/></div>
+          <div className="sim-row"><span>WEEK DATA LOADED</span><strong>100%</strong></div>
+          <div className="fm-bar green"><i style={{width:'100%'}}/></div>
+        </div>
+      </div>
+    </section>
+
+    <section className="fm-detail-zone">
+      <div className="fm-panel">
+        <div className="panel-head">Maç Detay Kartı</div>
+        {!selectedMatch&&<div className="recap-empty">Günün Maçları bölümünden bir maç seçin.</div>}
+        {selectedMatch&&selectedIntel&&<div className="match-intel-card pred-card state-locked" style={{marginTop:10}}>
+          <div className="pred-status-bar psb-locked">
+            <span className="psb-txt">SKOR TAHMİNİ KAPALI · BİLGİ KARTI</span>
+            <span style={{fontSize:10,opacity:.75}}>{fmtDateFull(selectedMatch.utc)} · {fmtTR(selectedMatch.utc)} TR</span>
+          </div>
+          <div className="pred-body">
+            <div style={{marginBottom:12}}>
+              <MatchScoreboard m={selectedMatch} now={now} score={scores[selectedMatch.id]||null} status={selectedMatch.status}/>
             </div>
-          ))}
+            <div className="intel-grid">
+              <div className="intel-item"><small>KIRMIZI KART</small><strong>{selectedIntel.redCards}</strong></div>
+              <div className="intel-item"><small>KURTARILAN PENALTI</small><strong>{selectedIntel.savedPenalties}</strong></div>
+              <div className="intel-item"><small>KAÇAN PENALTI</small><strong>{selectedIntel.missedPenalties}</strong></div>
+              <div className="intel-item"><small>HATTRICK</small><strong>{selectedIntel.hattrick?'VAR':'YOK'}</strong></div>
+              <div className="intel-item"><small>PENALTI SERİSİ</small><strong>{selectedIntel.penaltyShootout?'VAR':'YOK'}</strong></div>
+            </div>
+            <div className="intel-note">Ana sayfada skor tahmini yapılamaz. Bu kart yalnızca maç bilgisi ve canlı durum detaylarını gösterir.</div>
+          </div>
         </div>}
       </div>
-
-      {/* RIGHT */}
-      <div>
-        <div className="sec-hdr"> Puan Tablosu</div>
-        {lb.length===0?<div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--br)',borderRadius:12,padding:'20px',textAlign:'center',color:'var(--tm)',fontSize:13}}>Henuz oyuncu yok.</div>
-          :<div className="lb-wrap scroll" style={{maxHeight:360}}>
-            <div className="lb-scroll-x">
-              <div className="lb-table">
-                <div className="lb-head"><span className="lb-col-c">#</span><span>Oyuncu</span><span className="lb-col-c">P</span><span className="lb-col-c">ST</span><span className="lb-col-c">TT</span><span className="lb-col-c">A+</span><span className="lb-col-c" title="Canlı maçlarda anlık skorla hesaplanan potansiyel puan">CP</span></div>
-                {lb.map((u,i)=>{
-                  const top=i===0?'top1':i===1?'top2':i===2?'top3':'';
-                  return<div key={u.username} className={`lb-row ${top}`}>
-                    <div className={`lb-rank ${top}`}>{i+1}</div>
-                    <div><div className="lb-user-name">{u.displayName}</div><div className="lb-user-tag">@{u.username}</div></div>
-                    <div className="lb-num lb-p">{u.totalPoints||0}</div>
-                    <div className="lb-num lb-st">{u.st||0}</div>
-                    <div className="lb-num lb-tt">{u.tt||0}</div>
-                    <div className="lb-num lb-a">{(u.avg||0).toFixed(2)}</div>
-                    <div className="lb-num lb-cp">{u.potentialPts||0}</div>
-                  </div>;
-                })}
-              </div>
+    </section>
+    {selectedUser&&<div className="user-modal-overlay" onClick={()=>setSelectedUserKey(null)}>
+      <div className="user-modal" role="dialog" aria-modal="true" aria-label="Kullanıcı detayları" onClick={e=>e.stopPropagation()}>
+        <div className="user-modal-head">
+          <h4>Kullanıcı Detayı</h4>
+          <button type="button" className="user-modal-close" onClick={()=>setSelectedUserKey(null)}>KAPAT</button>
+        </div>
+        <div className="user-modal-body">
+          <div className="user-ident">
+            <div>
+              <strong>{selectedUser.displayName}</strong>
+              <small>@{selectedUser.username}</small>
+            </div>
+            <div className="user-score-pill">
+              <span>PROFİL SKORU</span>
+              <strong>{selectedUser.userScore||0}</strong>
             </div>
           </div>
-        }
-        {lb.length>=3&&<div style={{marginTop:14,background:'rgba(255,184,0,.04)',border:'1px solid rgba(255,184,0,.15)',borderRadius:12,padding:'14px 16px'}}>
-          <div style={{fontFamily:"'Bebas Neue'",fontSize:12,letterSpacing:'.15em',color:'var(--gold)',marginBottom:10}}> PODIUM</div>
-          {lb.slice(0,3).map((u,i)=><div key={u.username} style={{display:'flex',alignItems:'center',gap:8,marginBottom:i<2?7:0}}><span style={{fontSize:13,fontWeight:700}}>{['1.','2.','3.'][i]}</span><span style={{fontSize:13,fontWeight:600,flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{u.displayName}</span><span style={{fontFamily:"'Bebas Neue'",fontSize:16,color:'var(--or)'}}>{u.totalPoints||0}</span></div>)}
-        </div>}
+          <div className="user-modal-grid">
+            <div className="cell puan"><span>PUAN</span><strong>{selectedUser.totalPoints||0}</strong></div>
+            <div className="cell skor"><span>SKOR</span><strong>{selectedUser.st||0}</strong></div>
+            <div className="cell taraf"><span>TARAF</span><strong>{selectedUser.tt||0}</strong></div>
+            <div className="cell averaj"><span>AVERAJ(+)</span><strong>{selectedUser.cp||0}</strong></div>
+            <div className="cell puan"><span>GÜN PUAN</span><strong>{selectedUser.dayPts||0}</strong></div>
+          </div>
+        </div>
       </div>
-    </div>
+    </div>}
   </div>;
 }
-
 /*  Ana Sayfa Match Card  */
 function MC({m,now,scores,myPreds,showCD=false,compact=false}){
   const sc=scores[m.id]||null;
@@ -1469,78 +3067,100 @@ function MyScreen({currentUser,onUserUpdate,scores}){
     toast(`Şampiyon tahmini güncellendi: ${team} `,'success');
   };
 
-  // Stats
   const totalPreds=Object.keys(preds).length;
   const finishedWithScore=Object.entries(preds).filter(([mid,p])=>scores[mid]&&p.pts!=null);
   const totalPts=currentUser.totalPoints||0;
   const correctPreds=finishedWithScore.filter(([,p])=>p.pts>0).length;
 
-  // Filtered lists for tabs
   const openMatches=enriched.filter(m=>m.ls==='open'||m.ls==='warn');
   const lockedFinished=enriched.filter(m=>m.ls==='locked'||m.ls==='started'||m.status==='finished');
   const nextM=enriched.find(m=>m.status==='upcoming');
   const cd=nextM?cdText(nextM.utc,now):null;
+  const predictRate=MATCHES.length?Math.round((totalPreds/MATCHES.length)*100):0;
+  const successRate=finishedWithScore.length?Math.round((correctPreds/finishedWithScore.length)*100):0;
 
-  return<div>
-    <div className="pg-title">BENİM SAYFAM</div>
-    <div className="pg-sub">Tahminlerinizi yapın, istatistiklerinizi takip edin</div>
-
-    {/* Next match countdown */}
-    {nextM&&<div className="hero-cd" style={{marginBottom:20}}>
-      <div className="hc-label">⏱ Sonraki Maça Kalan Süre</div>
-      <div className="hc-time" style={{fontSize:34}}>{cd||'Devam ediyor...'}</div>
-      <div className="hc-sub"><strong style={{color:'var(--tp)'}}>{nextM.h} vs {nextM.a}</strong>{'  '}{fmtDateFull(nextM.utc)}, <strong style={{color:'var(--or)'}}>{fmtTR(nextM.utc)} TR</strong></div>
-    </div>}
-
-    {/* Stats */}
-    <div className="g4" style={{maxWidth:900,marginBottom:24}}>
-      <div className="stat"><div className="stat-icon"></div><div className="stat-lbl">Profil skoru</div><div className="stat-val">{Number(currentUser.userScore)||0}</div><div className="stat-sub">tüm turnuvalar (kümülatif)</div></div>
-      <div className="stat"><div className="stat-icon"></div><div className="stat-lbl">Toplam Puan</div><div className="stat-val">{totalPts}</div><div className="stat-sub">puan</div></div>
-      <div className="stat"><div className="stat-icon">⭐</div><div className="stat-lbl">Skor Puanı</div><div className="stat-val">{currentUser.scoreRating||1000}</div><div className="stat-sub">rating</div></div>
-      <div className="stat"><div className="stat-icon"></div><div className="stat-lbl">Tahmin</div><div className="stat-val">{totalPreds}</div><div className="stat-sub">toplam / {MATCHES.length}</div></div>
-      <div className="stat"><div className="stat-icon"></div><div className="stat-lbl">İsabetli</div><div className="stat-val">{correctPreds}</div><div className="stat-sub">doğru tahmin</div></div>
-    </div>
-
-    {/* Champion Prediction */}
-    <ChampionCard champion={champion} onSave={saveChampion} now={now}/>
-
-    {/* Tabs */}
-    <div className="tabs">
-      <button className={`tab${tab==='predict'?' active':''}`} onClick={()=>setTab('predict')}>
-         Tahmin Yap {openMatches.length>0&&<span style={{background:'rgba(255,107,0,.25)',borderRadius:4,padding:'1px 5px',marginLeft:4,fontSize:11}}>{openMatches.length}</span>}
-      </button>
-      <button className={`tab${tab==='locked'?' active':''}`} onClick={()=>setTab('locked')}> Kilitli / Bitti</button>
-      <button className={`tab${tab==='history'?' active':''}`} onClick={()=>setTab('history')}> Tahmin Geçmişi</button>
-    </div>
-
-    {/* TAB: PREDICT */}
-    {tab==='predict'&&<div>
-      {openMatches.length===0
-        ?<div style={{background:'rgba(255,107,0,.04)',border:'1px solid var(--bro)',borderRadius:16,padding:'32px 24px',textAlign:'center'}}>
-          <div style={{fontSize:44,marginBottom:14}}>⏳</div>
-          <div style={{fontFamily:"'Bebas Neue'",fontSize:20,letterSpacing:'.1em',marginBottom:8}}>AÇIK TAHMİN YOK</div>
-          <div style={{fontSize:13,color:'var(--ts)',lineHeight:1.65}}>
-            Turnuva <strong style={{color:'var(--or)'}}>11 Haziran 2026</strong>'da başlıyor.<br/>
-            Tahminler maçtan <strong style={{color:'var(--or)'}}>60 dakika öncesine</strong> kadar açık kalır.
+  return<div className="my-fm">
+    <section className="my-banner">
+      <div className="my-banner-left">
+        <div className="my-badge">MY</div>
+        <div>
+          <div className="my-overline">PERSONAL CONTROL CENTER</div>
+          <h2>BENİM SAYFAM</h2>
+          <div className="my-meta">
+            <span>@{currentUser.username}</span>
+            <span>•</span>
+            <span>{totalPreds} tahmin</span>
+            <span>•</span>
+            <span>{successRate}% isabet</span>
           </div>
         </div>
-        :<PredMatchList matches={openMatches} preds={preds} scores={scores} now={now} onSave={savePred}/>
-      }
-    </div>}
+      </div>
+      <div className="my-next-box">
+        <div className="my-next-label">SONRAKİ MAÇ</div>
+        {nextM?<>
+          <div className="my-next-match">{nextM.h} vs {nextM.a}</div>
+          <div className="my-next-time">{fmtDateFull(nextM.utc)} · {fmtTR(nextM.utc)} TR</div>
+          <div className="my-next-cd">{cd||'Devam ediyor...'}</div>
+        </>:<>
+          <div className="my-next-match">Planlanmış maç yok</div>
+          <div className="my-next-time">Takvim güncelleniyor</div>
+        </>}
+      </div>
+    </section>
 
-    {/* TAB: LOCKED */}
-    {tab==='locked'&&<div>
-      {lockedFinished.length===0
-        ?<div style={{padding:'24px',textAlign:'center',color:'var(--ts)',fontSize:14}}>Henüz kilitlenmiş maç yok.</div>
-        :<PredLockedList matches={lockedFinished} preds={preds} scores={scores} now={now}/>
-      }
-    </div>}
+    <div className="my-stats-grid">
+      <div className="my-stat"><span>PROFİL SKORU</span><strong>{Number(currentUser.userScore)||0}</strong><small>Tüm turnuvalar</small></div>
+      <div className="my-stat"><span>TOPLAM PUAN</span><strong>{totalPts}</strong><small>Lig puanı</small></div>
+      <div className="my-stat"><span>TAHMİN ORANI</span><strong>{predictRate}%</strong><small>{totalPreds}/{MATCHES.length}</small></div>
+      <div className="my-stat"><span>İSABETLİ</span><strong>{correctPreds}</strong><small>Skorlanan maçlar</small></div>
+    </div>
 
-    {/* TAB: HISTORY */}
-    {tab==='history'&&<PredHistory preds={preds} scores={scores}/>}
+    <section className="my-workspace">
+      <aside className="my-side">
+        <ChampionCard champion={champion} onSave={saveChampion} now={now}/>
+        <div className="my-side-note">
+          <div className="panel-head">SİSTEM NOTU</div>
+          <p>Tahminler maçtan 60 dakika önce otomatik kilitlenir. Kilit sonrası değişiklik yapılamaz.</p>
+        </div>
+      </aside>
+
+      <div className="my-main-panel">
+        <div className="my-tabs">
+          <button className={`my-tab${tab==='predict'?' active':''}`} onClick={()=>setTab('predict')}>
+            Tahmin Yap <span>{openMatches.length}</span>
+          </button>
+          <button className={`my-tab${tab==='locked'?' active':''}`} onClick={()=>setTab('locked')}>
+            Kilitli / Bitti <span>{lockedFinished.length}</span>
+          </button>
+          <button className={`my-tab${tab==='history'?' active':''}`} onClick={()=>setTab('history')}>
+            Tahmin Geçmişi <span>{totalPreds}</span>
+          </button>
+        </div>
+
+        <div className="my-tab-body">
+          {tab==='predict'&&<div>
+            {openMatches.length===0
+              ?<div className="my-empty">
+                <div className="my-empty-title">AÇIK TAHMİN YOK</div>
+                <div className="my-empty-text">Tahmin penceresi açıldığında bu alandan skor tahmini yapabilirsiniz.</div>
+              </div>
+              :<PredMatchList matches={openMatches} preds={preds} scores={scores} now={now} onSave={savePred}/>
+            }
+          </div>}
+
+          {tab==='locked'&&<div>
+            {lockedFinished.length===0
+              ?<div className="my-empty"><div className="my-empty-text">Henüz kilitlenmiş maç yok.</div></div>
+              :<PredLockedList matches={lockedFinished} preds={preds} scores={scores} now={now}/>
+            }
+          </div>}
+
+          {tab==='history'&&<PredHistory preds={preds} scores={scores}/>}
+        </div>
+      </div>
+    </section>
   </div>;
 }
-
 /*  Champion Prediction Card  */
 function ChampionCard({champion,onSave,now}){
   const [open,setOpen]=useState(false);
@@ -1552,7 +3172,7 @@ function ChampionCard({champion,onSave,now}){
   const lockCountdown=cdText(lockAt.toISOString(),now);
   useEffect(()=>{if(isLocked&&open)setOpen(false)},[isLocked,open]);
   return<div className="champ-card">
-    <div className="champ-title"> DNYA KUPASI ŞAMPİYON TAHMİNİ</div>
+    <div className="champ-title"> DÜNYA KUPASI ŞAMPİYON TAHMİNİ</div>
     <div className="champ-sub">
       {isLocked
         ?'Şampiyon tahmini kilitlendi (ilk maçtan 60 dk önce).'
@@ -1573,7 +3193,7 @@ function ChampionCard({champion,onSave,now}){
       </div>}
     </>:<>
       {isLocked
-        ?<div style={{fontSize:12,color:'var(--tm)',lineHeight:1.6}}>Tahmin süresi doldu. İlk maçtan 60 dakika önce ampiyon seçimi kapatıldı.</div>
+        ?<div style={{fontSize:12,color:'var(--tm)',lineHeight:1.6}}>Tahmin süresi doldu. İlk maçtan 60 dakika önce şampiyon seçimi kapatıldı.</div>
         :<><input className="champ-search" placeholder="Takım ara veya seç..." value={search} onChange={e=>setSearch(e.target.value)}/>
           <div className="champ-grid">{filtered.slice(0,24).map(t=><button key={t} className="champ-team-btn" onClick={()=>{onSave(t);setSearch('')}}><WFlag team={t} size="sm"/><span>{t}</span></button>)}</div>
           {filtered.length>24&&<p style={{fontSize:11,color:'var(--tm)',marginTop:8}}>+{filtered.length-24} daha... aramaya devam edin</p>}
@@ -1625,7 +3245,7 @@ function PredCard({m,pred,score,now,onSave}){
     if(isFinished) return' MA TAMAMLANDI';
     if(locked) return pred?' KİLİTLENDİ  TAHMİNİNİZ KAYDEDİLDİ':' KİLİTLENDİ  TAHMİN GİRİLMEDİ';
     if(ls==='warn') return` KİLİTLENMEYE ${lockCd||'AZ'} KALDI`;
-    return` TAHMİN AIKHSaat: ${fmtTR(m.utc)} TR`;
+    return` TAHMİN AÇIK • Saat: ${fmtTR(m.utc)} TR`;
   };
 
   const hasSaved=pred!=null;
@@ -1633,7 +3253,7 @@ function PredCard({m,pred,score,now,onSave}){
   return<div className={`pred-card ${stateClass}`}>
     {/* Status bar */}
     <div className={`pred-status-bar ${psbClass}`}>
-      <span className="psb-txt">{isFinished?' TAMAMLANDI':locked?pred?' KİLİTLENDİ':'  TAHMİN GİRİLMEDİ':ls==='warn'?` KİLİTLENMEYE ${lockCd} KALDI`:` TAHMİN AIK`}</span>
+      <span className="psb-txt">{isFinished?' TAMAMLANDI':locked?pred?' KİLİTLENDİ':'  TAHMİN GİRİLMEDİ':ls==='warn'?` KİLİTLENMEYE ${lockCd} KALDI`:` TAHMİN AÇIK`}</span>
       <span style={{fontSize:10,opacity:.75}}>{fmtTR(m.utc)} TR · GRP {m.grp}</span>
     </div>
 
@@ -1720,7 +3340,7 @@ function PredLockedList({matches,preds,scores,now}){
 /*  Prediction History  */
 function PredHistory({preds,scores}){
   const rows=MATCHES.map(m=>({m,pred:preds[m.id]||null,score:scores[m.id]||null})).filter(r=>r.pred||r.score);
-  if(rows.length===0) return<div style={{padding:'24px',textAlign:'center',color:'var(--ts)',fontSize:14}}>Henüz tahmin girilmemi. "Tahmin Yap" sekmesinden balayın!</div>;
+  if(rows.length===0) return<div style={{padding:'24px',textAlign:'center',color:'var(--ts)',fontSize:14}}>Henüz tahmin girilmemiş. "Tahmin Yap" sekmesinden başlayın!</div>;
   const totalPts=rows.reduce((s,r)=>s+(r.pred?.pts||0),0);
   return<div>
     <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:14}}>
@@ -1753,56 +3373,124 @@ function PredHistory({preds,scores}){
 
 /*  RULES  */
 function RulesScreen(){
-  const rules=[{icon:'',t:'Seri Baı Galibiyeti',d:'Seri baı takımın maçını doru tahmin',pts:'+1',c:'pts-g'},{icon:'',t:'Beraberlik',d:'Maç beraberlikle biterse',pts:'+2',c:'pts-g'},{icon:'️',t:'Dier Takım Galibiyeti',d:'İki "dier" takım arasındaki galibiyeti tahmin',pts:'+1',c:'pts-g'},{icon:'',t:'Sürpriz Galibiyet',d:'Seri baı olmayan takım seri baına galip gelirse',pts:'+3',c:'pts-g'},{icon:'',t:'Şampiyon Tahmini',d:'Turnuvayı kazanan takımı doru tahmin',pts:'+5',c:'pts-gold'},{icon:'',t:'Kırmızı Kart',d:'Maçta kırmızı kart çıkarsa (penaltı serisi hariç)',pts:'-1',c:'pts-r'},{icon:'',t:'Kaçan Penaltı',d:'Normal süre veya uzatmada penaltı kaçarsa',pts:'-1',c:'pts-r'},{icon:'',t:'Kurtarılan Penaltı',d:'Normal sürede penaltı kurtarılırsa',pts:'+1',c:'pts-g'},{icon:'',t:'Hattrick',d:'Maçta bir oyuncu hattrick yaparsa',pts:'+1',c:'pts-g'}];
-  return<div>
-    <div className="pg-title">KURALLAR</div>
-    <div className="pg-sub">Puanlama sistemi, nasıl oynanır ve önemli notlar</div>
-    <div style={{background:'rgba(255,107,0,.05)',border:'1px solid rgba(255,107,0,.18)',borderRadius:14,padding:'16px 20px',maxWidth:720,marginBottom:24,fontSize:14,lineHeight:1.7,color:'var(--ts)'}}>
-      <strong style={{color:'var(--tp)'}}>Nasıl Oynanır?</strong>  Kayıt olduktan sonra "Benim Sayfam" bölümünden her maç için skor tahmini yapabilirsin. Maç balamadan <strong style={{color:'var(--or)'}}>60 dakika öncesine</strong> kadar tahmin kabul edilir. Sonra kilitlenir ve herkes tahminleri görebilir.
-    </div>
-    <div style={{background:'rgba(167,139,250,.07)',border:'1px solid rgba(167,139,250,.25)',borderRadius:14,padding:'14px 18px',maxWidth:820,marginBottom:20,fontSize:13,lineHeight:1.65,color:'var(--ts)'}}>
-      <strong style={{color:'var(--purple)'}}>Profil skoru (kümülatif)</strong> — Ana sayfadaki sıralama puanından (P) farklıdır. Her kullanıcıya özel, tüm turnuvalarda biriken bir skordur; maç sonucu işlendiğinde otomatik güncellenir. Ağırlıklar: doğru skor +25, doğru taraf +15, kurtarılan penaltı +10, hattrick +10; kırmızı kart ve kaçan penaltı (adet başına) −10. Penaltı serisindeki atışlar, <code style={{fontSize:12,color:'var(--tp)'}}>matchEvents</code> ile işaretlenirse sayılmaz. Aynı maç iki kez sayılmaz.
-    </div>
-    <div data-rules-grid style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,maxWidth:820}}>
-      <div>
-        <div className="sec-hdr">PUAN KURALLARI</div>
-        {rules.map((r,i)=><div key={i} className="rule-card"><span style={{fontSize:18,flexShrink:0,marginTop:1}}>{r.icon}</span><div style={{flex:1}}><div className="rule-title">{r.t}</div><div className="rule-desc">{r.d}</div></div><div className={`rule-pts ${r.c}`}>{r.pts}</div></div>)}
-      </div>
-      <div>
-        <div className="sec-hdr">SKOR TAHMİN PUANLARI</div>
-        <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--br)',borderRadius:14,padding:'18px 16px',marginBottom:14}}>
-          {[['1-0 / 0-1','2 Puan'],['2-0 / 0-2','3 Puan'],['0-0 beraberlik','4 Puan'],['2-1 / 1-2','3 Puan'],['3-0 / 0-3','3 Puan'],['2-2 beraberlik','4 Puan'],['3+ fark','5 Puan']].map(([s,p])=>(
-            <div key={s} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 0',borderBottom:'1px solid var(--br)'}}><span style={{fontSize:13,color:'var(--ts)'}}>{s}</span><span style={{fontFamily:"'Bebas Neue'",fontSize:18,color:'var(--green)',letterSpacing:'.04em'}}>{p}</span></div>
-          ))}
-        </div>
-        <div style={{background:'rgba(255,107,0,.05)',border:'1px solid var(--bro)',borderRadius:12,padding:'14px 16px',marginBottom:12}}>
-          <div style={{fontFamily:"'Bebas Neue'",fontSize:14,letterSpacing:'.12em',color:'var(--or)',marginBottom:8}}>NEMLİ NOTLAR</div>
-          <ul style={{fontSize:12,color:'var(--ts)',lineHeight:1.75,paddingLeft:16}}>
-            <li>Tahminler maç başlamadan <strong style={{color:'var(--or)'}}>60 dk önce</strong> otomatik kilitlenir</li>
-            <li>Kilitlenmiş tahminler Ana Sayfa'da herkese görünür</li>
-            <li>Kırmızı kart / penaltı: normal süre + uzatma (penaltı atışları hariç)</li>
-            <li>Şampiyon tahmini turnuvanın ilk maçına kadar değiştirilebilir</li>
-            <li>Aynı puan ve averaja sahip kullanıcılar, (ST) skor tahminlerinde daha yüksek skorları olan kullanıcı üst sırada yer alır.</li>
-            <li>Maç sonuçları ve canlı skorlar yalnızca otomatik veri entegrasyonu ile güncellenir; yönetici veya kullanıcı tarafından manuel sonuç girişi yoktur.</li>
-            <li>Hiçbir veri silinmez, skor puanın kalıcıdır</li>
-          </ul>
-        </div>
-        <div style={{background:'rgba(96,165,250,.06)',border:'1px solid rgba(96,165,250,.2)',borderRadius:12,padding:'14px 16px'}}>
-          <div style={{fontFamily:"'Bebas Neue'",fontSize:14,letterSpacing:'.1em',color:'var(--blue)',marginBottom:8}}>12 SERİ BAŞI TAKIMLAR</div>
-          <div style={{display:'flex',flexWrap:'wrap',gap:5}}>
-            {SEEDED.map(t=><span key={t} style={{background:'rgba(96,165,250,.1)',color:'var(--blue)',fontSize:11,fontWeight:600,padding:'3px 8px',borderRadius:6,border:'1px solid rgba(96,165,250,.2)',display:'inline-flex',alignItems:'center',gap:5}}><WFlag team={t} size="sm"/>{t}</span>)}
+  const rules=[
+    {icon:'⚑',t:'Seri Başı Galibiyeti',d:'Seri başı takımın maçını doğru tahmin et',pts:'+1',c:'pts-g'},
+    {icon:'═',t:'Beraberlik',d:'Maç beraberlikle biterse',pts:'+2',c:'pts-g'},
+    {icon:'⇄',t:'Diğer Takım Galibiyeti',d:'İki "diğer" takım arasındaki galibiyeti tahmin et',pts:'+1',c:'pts-g'},
+    {icon:'▲',t:'Sürpriz Galibiyet',d:'Seri başı olmayan takım seri başına galip gelirse',pts:'+3',c:'pts-g'},
+    {icon:'★',t:'Şampiyon Tahmini',d:'Turnuvayı kazanan takımı doğru tahmin et',pts:'+5',c:'pts-gold'},
+    {icon:'■',t:'Kırmızı Kart',d:'Maçta kırmızı kart çıkarsa (penaltı serisi hariç)',pts:'-1',c:'pts-r'},
+    {icon:'○',t:'Kaçan Penaltı',d:'Normal süre veya uzatmada penaltı kaçarsa',pts:'-1',c:'pts-r'},
+    {icon:'◉',t:'Kurtarılan Penaltı',d:'Normal sürede penaltı kurtarılırsa',pts:'+1',c:'pts-g'},
+    {icon:'✦',t:'Hattrick',d:'Maçta bir oyuncu hattrick yaparsa',pts:'+1',c:'pts-g'}
+  ];
+
+  const scoreMap=[
+    ['1-0 / 0-1','2 Puan'],
+    ['2-0 / 0-2','3 Puan'],
+    ['0-0 beraberlik','4 Puan'],
+    ['2-1 / 1-2','3 Puan'],
+    ['3-0 / 0-3','3 Puan'],
+    ['2-2 beraberlik','4 Puan'],
+    ['3+ fark','5 Puan']
+  ];
+
+  return<div className="rules-fm">
+    <section className="rules-banner">
+      <div className="rules-banner-left">
+        <div className="rules-badge">RL</div>
+        <div>
+          <div className="rules-overline">COMPETITION PROTOCOL · SCORING SYSTEM</div>
+          <h2>KURALLAR</h2>
+          <div className="rules-sub">
+            <span>Puanlama sistemi</span>
+            <span>•</span>
+            <span>Tahmin kilidi</span>
+            <span>•</span>
+            <span>Veri politikası</span>
           </div>
         </div>
       </div>
-    </div>
+      <div className="rules-banner-right">
+        <small>ANA KURAL</small>
+        <strong>Tahminler maçtan 60 dakika önce kapanır</strong>
+        <span>Kilit sonrası düzenleme yapılamaz</span>
+      </div>
+    </section>
+
+    <section className="rules-grid" data-rules-grid>
+      <div className="rules-stack">
+        <div className="rules-card rules-note-orange">
+          <div className="panel-head">NASIL OYNANIR?</div>
+          <p className="rules-lead">
+            Kayıt olduktan sonra "Benim Sayfam" bölümünden her maç için skor tahmini yapabilirsin.
+            Tahminler maç başlamadan <strong style={{color:'var(--or)'}}>60 dakika öncesine</strong> kadar açıktır.
+            Süre dolduğunda tahminler kilitlenir ve yalnızca görüntülenebilir.
+          </p>
+        </div>
+
+        <div className="rules-card">
+          <div className="panel-head">PUAN KURALLARI</div>
+          <div style={{marginTop:8}}>
+            {rules.map((r,i)=><div key={i} className="rule-card">
+              <span style={{fontSize:14,flexShrink:0,marginTop:2,color:'var(--or)'}}>{r.icon}</span>
+              <div style={{flex:1}}>
+                <div className="rule-title">{r.t}</div>
+                <div className="rule-desc">{r.d}</div>
+              </div>
+              <div className={`rule-pts ${r.c}`}>{r.pts}</div>
+            </div>)}
+          </div>
+        </div>
+      </div>
+
+      <div className="rules-stack">
+        <div className="rules-card">
+          <div className="panel-head">SKOR TAHMİN MATRİSİ</div>
+          <div className="rules-score">
+            {scoreMap.map(([s,p])=><div key={s} className="rules-score-row"><span>{s}</span><strong>{p}</strong></div>)}
+          </div>
+        </div>
+
+        <div className="rules-card rules-note-purple">
+          <div className="panel-head">PROFİL SKORU (KÜMÜLATİF)</div>
+          <ul className="rules-notes">
+            <li>Ana sayfadaki sıralama puanından (P) farklıdır.</li>
+            <li>Her kullanıcıya özel, tüm turnuvalarda biriken bir skordur.</li>
+            <li>Maç sonucu işlendiğinde otomatik güncellenir.</li>
+            <li>Ağırlıklar: doğru skor +25, doğru taraf +15, kurtarılan penaltı +10, hattrick +10.</li>
+            <li>Kırmızı kart ve kaçan penaltı (adet başına) −10 puan etkiler.</li>
+            <li>Penaltı serisindeki atışlar <code style={{fontSize:11,color:'var(--tp)'}}>matchEvents</code> ile işaretlenirse sayılmaz.</li>
+          </ul>
+        </div>
+
+        <div className="rules-card rules-note-orange">
+          <div className="panel-head">ÖNEMLİ NOTLAR</div>
+          <ul className="rules-notes">
+            <li>Kilitlenen tahminler Ana Sayfa'da herkese görünür.</li>
+            <li>Kırmızı kart ve penaltı olayları normal süre + uzatma için geçerlidir.</li>
+            <li>Şampiyon tahmini turnuvanın ilk maçına kadar değiştirilebilir.</li>
+            <li>Aynı puan/averajda ST değeri yüksek olan üst sırada yer alır.</li>
+            <li>Canlı skor ve maç sonuçları yalnızca otomatik veri entegrasyonu ile güncellenir.</li>
+            <li>Veri silinmez, skor geçmişi kalıcıdır.</li>
+          </ul>
+        </div>
+
+        <div className="rules-card rules-note-blue">
+          <div className="panel-head">12 SERİ BAŞI TAKIM</div>
+          <div className="rules-chips">
+            {SEEDED.map(t=><span key={t} className="rules-chip"><WFlag team={t} size="sm"/>{t}</span>)}
+          </div>
+        </div>
+      </div>
+    </section>
   </div>;
 }
-
 /*  ROOT  */
 function App(){
   const [user,setUser]=useState(undefined);
   useEffect(()=>{ensureMertAdmin();const s=S.get('session');if(s){const u=(S.get('users')||{})[s.username];setUser(u||null)}else setUser(null)},[]);
-  if(user===undefined)return<div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'var(--bg0)',flexDirection:'column',gap:16}}><div style={{fontSize:48,animation:'spin 1.2s linear infinite'}}></div><style>{'@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}'}</style><div style={{fontFamily:"'Bebas Neue'",fontSize:16,letterSpacing:'.2em',color:'var(--tm)'}}>YKLENİYOR...</div></div>;
+  if(user===undefined)return<div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'var(--bg0)',flexDirection:'column',gap:16}}><div style={{fontSize:48,animation:'spin 1.2s linear infinite'}}></div><style>{'@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}'}</style><div style={{fontFamily:"'Bebas Neue'",fontSize:16,letterSpacing:'.2em',color:'var(--tm)'}}>YÜKLENİYOR...</div></div>;
   if(!user)return<AuthScreen onLogin={setUser}/>;
   return<ToastProvider><MainApp currentUser={user} onLogout={()=>setUser(null)}/></ToastProvider>;
 }
@@ -1810,4 +3498,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
