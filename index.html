@@ -2068,7 +2068,7 @@ body{
   .my-fm .my-workspace{grid-template-columns:1fr;gap:8px}
   .my-fm .my-banner{flex-direction:column}
   .my-fm .my-next-box{text-align:left;min-width:0}
-  .my-fm .my-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .my-fm .my-stats-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
   .my-fm .my-tabs{overflow:auto;white-space:nowrap}
   .my-fm .my-tab{flex:0 0 auto}
   .rules-fm .rules-banner{flex-direction:column}
@@ -2216,7 +2216,7 @@ body{
   .my-fm .my-tab{
     min-width:0;
     padding:6px 4px;
-    font-size:9px;
+    font-size:8px;
     line-height:1.2;
     letter-spacing:.04em;
     overflow:hidden;
@@ -2226,8 +2226,12 @@ body{
   .my-fm .my-tab span{
     display:block;
     margin-top:3px;
-    font-size:9px;
+    font-size:8px;
   }
+  .my-fm .my-stat{padding:8px 6px}
+  .my-fm .my-stat span{font-size:7px;letter-spacing:.06em}
+  .my-fm .my-stat strong{font-size:16px;margin-top:2px}
+  .my-fm .my-stat small{font-size:8px;line-height:1.25}
   .my-fm .champ-card{
     padding:12px;
     margin-bottom:10px;
@@ -2355,11 +2359,6 @@ body{
 }
 @media(max-width:420px){
   .home-fm .user-modal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .my-fm .my-tabs{grid-template-columns:1fr 1fr}
-}
-@media(max-width:380px){
-  .my-fm .my-stats-grid{grid-template-columns:1fr}
-  .my-fm .my-tabs{grid-template-columns:1fr}
 }
 </style>
 </head>
