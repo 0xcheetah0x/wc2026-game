@@ -818,11 +818,11 @@ body{
   --ord:rgba(212,175,55,.14);
   --or-glow:rgba(212,175,55,.25);
   --gold:#d4af37;
-  --br:#1e293b;
-  --br-bright:#2f415e;
-  --tp:#cbd5e1;
-  --ts:#8ca1bd;
-  --tm:#5b7090;
+  --br:#31465f;
+  --br-bright:#4d6787;
+  --tp:#e9f0f8;
+  --ts:#b2c3d8;
+  --tm:#90a5be;
   --green:#22c55e;
   --red:#ef4444;
   --f-head:'General Sans','Outfit',sans-serif;
@@ -830,6 +830,8 @@ body{
   --f-mono:'JetBrains Mono',monospace;
   background:var(--bg0);
   color:var(--tp);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
 .app-root.fm-shell::before{
   content:'';
@@ -1670,11 +1672,46 @@ body{
   align-items:flex-start;
   gap:10px;
 }
-.home-fm .user-ident strong{
+.home-fm .user-ident-main{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+  flex:1;
+}
+.home-fm .user-ident-avatar{
+  width:40px;
+  height:40px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:rgba(5,10,20,.75);
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+}
+.home-fm .user-ident-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  image-rendering:pixelated;
+  display:block;
+}
+.home-fm .user-ident-avatar span{
+  font-family:var(--f-head);
+  font-size:15px;
+  font-weight:800;
+  color:var(--or);
+}
+.home-fm .user-ident-meta{
+  min-width:0;
+  margin-left:2px;
+}
+.home-fm .user-ident-meta strong{
   display:block;
   font-size:15px;
 }
-.home-fm .user-ident small{
+.home-fm .user-ident-meta small{
   display:block;
   margin-top:3px;
   color:var(--tm);
@@ -1687,6 +1724,10 @@ body{
   border-radius:2px;
   padding:8px 10px;
   min-width:120px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  align-content:center;
 }
 .home-fm .user-score-pill span{
   display:block;
@@ -1734,6 +1775,15 @@ body{
 .home-fm .user-modal-grid .cell.averaj strong{color:#fb923c}
 @media (max-width:640px){
   .home-fm .user-modal-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .home-fm .user-ident{
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+  }
+  .home-fm .user-score-pill{
+    width:100%;
+    min-width:0;
+  }
 }
 .home-fm .form-dots{
   display:flex;
@@ -2211,6 +2261,85 @@ body{
 .rules-fm .rules-note-orange{border-color:rgba(212,175,55,.34)}
 .rules-fm .rules-note-purple{border-color:rgba(167,139,250,.32)}
 .rules-fm .rules-note-blue{border-color:rgba(96,165,250,.32)}
+
+/* Readability + Contrast pass */
+.app-root.fm-shell .home-fm .context-banner,
+.app-root.fm-shell .home-fm .fm-panel,
+.app-root.fm-shell .home-fm .news-marquee,
+.app-root.fm-shell .home-fm .recap-table,
+.app-root.fm-shell .home-fm .standings-table,
+.app-root.fm-shell .home-fm .intel-item,
+.app-root.fm-shell .home-fm .pred-feed-list,
+.app-root.fm-shell .home-fm .profile-card,
+.app-root.fm-shell .home-fm .user-modal,
+.app-root.fm-shell .my-fm .my-next-box,
+.app-root.fm-shell .my-fm .my-stat,
+.app-root.fm-shell .my-fm .my-main-panel,
+.app-root.fm-shell .my-fm .my-side-note,
+.app-root.fm-shell .my-fm .my-avatar-panel,
+.app-root.fm-shell .my-fm .champ-card,
+.app-root.fm-shell .my-fm .pred-card,
+.app-root.fm-shell .my-fm .lb-wrap,
+.app-root.fm-shell .rules-fm .rules-banner,
+.app-root.fm-shell .rules-fm .rules-banner-right,
+.app-root.fm-shell .rules-fm .rules-card,
+.app-root.fm-shell .rules-fm .rule-card{
+  border-color:rgba(191,210,232,.28);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.03),0 8px 20px rgba(0,0,0,.34);
+}
+.app-root.fm-shell .home-fm .fm-panel,
+.app-root.fm-shell .my-fm .my-main-panel,
+.app-root.fm-shell .rules-fm .rules-card{
+  background:linear-gradient(180deg,rgba(14,24,42,.97),rgba(10,17,30,.97));
+}
+.app-root.fm-shell .panel-head{
+  font-size:12px;
+  letter-spacing:.08em;
+  color:var(--or);
+  text-shadow:0 0 8px rgba(212,175,55,.16);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-bottom:6px;
+  margin-bottom:8px;
+  border-bottom:1px solid rgba(191,210,232,.2);
+}
+.app-root.fm-shell .home-fm .panel-head .panel-tag{
+  box-shadow:0 0 10px rgba(212,175,55,.22);
+}
+.app-root.fm-shell .home-fm .sync-note,
+.app-root.fm-shell .home-fm .panel-sub,
+.app-root.fm-shell .home-fm .context-meta,
+.app-root.fm-shell .home-fm .comm-b,
+.app-root.fm-shell .home-fm .news-item,
+.app-root.fm-shell .home-fm .intel-note,
+.app-root.fm-shell .my-fm .my-meta,
+.app-root.fm-shell .my-fm .my-next-time,
+.app-root.fm-shell .my-fm .my-side-note p,
+.app-root.fm-shell .rules-fm .rules-lead,
+.app-root.fm-shell .rules-fm .rules-notes{
+  color:var(--tp);
+}
+.app-root.fm-shell .home-fm .recap-head,
+.app-root.fm-shell .home-fm .standings-head{
+  font-size:9px;
+  color:var(--ts);
+}
+.app-root.fm-shell .home-fm .st-chip,
+.app-root.fm-shell .home-fm .intel-item small,
+.app-root.fm-shell .home-fm .sim-kpis small,
+.app-root.fm-shell .home-fm .kpi-row,
+.app-root.fm-shell .home-fm .comm-k,
+.app-root.fm-shell .home-fm .comm-t,
+.app-root.fm-shell .my-fm .my-avatar-item span,
+.app-root.fm-shell .my-fm .my-stat span,
+.app-root.fm-shell .my-fm .my-next-label,
+.app-root.fm-shell .rules-fm .rules-banner-right small{
+  font-size:10px;
+  color:var(--ts);
+  letter-spacing:.07em;
+}
+.app-root.fm-shell .home-fm .st-chip{height:20px}
 
 @keyframes dotPulse{
   0%,100%{transform:scale(1);opacity:.95}
@@ -3348,6 +3477,11 @@ function HomeScreen({currentUser,scores,liveSync}){
       dayPts:dayRow.dayPts||0
     };
   },[selectedUserKey,users,lb,topDailyRanking]);
+  const selectedUserAvatar=useMemo(()=>{
+    if(!selectedUser) return null;
+    return avatarById(selectedUser.avatarId);
+  },[selectedUser]);
+  const selectedUserAvatarFallback=useMemo(()=>((selectedUser?.displayName||selectedUser?.username||'U').charAt(0).toUpperCase()),[selectedUser]);
 
   const comms=useMemo(()=>{
     const nowMs=now.getTime();
@@ -3576,7 +3710,6 @@ function HomeScreen({currentUser,scores,liveSync}){
               <div className="intel-item"><small>KURTARILAN PENALTI</small><strong>{selectedIntel.savedPenalties}</strong></div>
               <div className="intel-item"><small>KAÇAN PENALTI</small><strong>{selectedIntel.missedPenalties}</strong></div>
               <div className="intel-item"><small>HATTRICK</small><strong>{selectedIntel.hattrick?'VAR':'YOK'}</strong></div>
-              <div className="intel-item"><small>PENALTI SERİSİ</small><strong>{selectedIntel.penaltyShootout?'VAR':'YOK'}</strong></div>
             </div>
             <div className="intel-note">Ana sayfada skor tahmini yapılamaz. Bu kart yalnızca maç bilgisi ve canlı durum detaylarını gösterir.</div>
           </div>
@@ -3604,9 +3737,16 @@ function HomeScreen({currentUser,scores,liveSync}){
         </div>
         <div className="user-modal-body">
           <div className="user-ident">
-            <div>
-              <strong>{selectedUser.displayName}</strong>
-              <small>@{selectedUser.username}</small>
+            <div className="user-ident-main">
+              <div className="user-ident-avatar">
+                {selectedUserAvatar
+                  ?<img src={selectedUserAvatar.src} alt={`${selectedUser.displayName} avatar`}/>
+                  :<span>{selectedUserAvatarFallback}</span>}
+              </div>
+              <div className="user-ident-meta">
+                <strong>{selectedUser.displayName}</strong>
+                <small>@{selectedUser.username}</small>
+              </div>
             </div>
             <div className="user-score-pill">
               <span>PROFİL SKORU</span>
