@@ -1029,7 +1029,13 @@ body{
   cursor:pointer;
   transition:all .25s cubic-bezier(.22,1,.36,1);
 }
+.app-root.fm-shell .continue-btn .date-short{display:none}
 .app-root.fm-shell .continue-btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.app-root.fm-shell,
+.app-root.fm-shell .main-shell,
+.app-root.fm-shell .app-main{
+  overflow-x:hidden;
+}
 .app-root.fm-shell .app-main{
   margin-left:0;
   padding:14px;
@@ -2068,6 +2074,7 @@ body{
   .home-fm .data-split{grid-template-columns:1fr}
   .home-fm .recap-head,.home-fm .recap-row{grid-template-columns:46px 1fr 56px 1fr 48px}
   .home-fm .intel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .my-fm .my-workspace{grid-template-columns:1fr;gap:8px}
   .my-fm .my-banner{flex-direction:column}
   .my-fm .my-next-box{text-align:left;min-width:0}
   .my-fm .my-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -2082,7 +2089,7 @@ body{
     width:100%;
     height:58px;
     top:auto;
-    bottom:24px;
+    bottom:calc(24px + env(safe-area-inset-bottom,0px));
     border-right:none;
     border-top:1px solid var(--br);
     z-index:50;
@@ -2105,18 +2112,83 @@ body{
   }
   .app-root.fm-shell .nav-item>span:last-child{display:block}
   .app-root.fm-shell .main-shell{margin-left:0;width:100%}
-  .app-root.fm-shell .ctrl-header{padding:0 8px}
-  .app-root.fm-shell .ctrl-breadcrumb{font-size:9px}
-  .app-root.fm-shell .continue-btn{padding:0 9px}
-  .app-root.fm-shell .app-main{padding:10px 8px 76px}
+  .app-root.fm-shell .ctrl-header{padding:0 8px;gap:6px}
+  .app-root.fm-shell .ctrl-left,.app-root.fm-shell .ctrl-right{gap:6px;min-width:0}
+  .app-root.fm-shell .ctrl-breadcrumb{font-size:9px;min-width:0}
+  .app-root.fm-shell .ctrl-breadcrumb span{display:none !important}
+  .app-root.fm-shell .sync-pill{
+    height:28px;
+    padding:0 6px;
+    font-size:8px;
+    min-width:28px;
+    justify-content:center;
+  }
+  .app-root.fm-shell .sync-pill span:last-child{display:none}
+  .app-root.fm-shell .continue-btn{
+    padding:0 8px;
+    min-width:82px;
+    font-size:10px;
+    letter-spacing:.04em;
+  }
+  .app-root.fm-shell .continue-btn .date-long{display:none}
+  .app-root.fm-shell .continue-btn .date-short{display:inline}
+  .app-root.fm-shell .app-main{
+    padding:10px 8px calc(58px + 24px + env(safe-area-inset-bottom,0px) + 12px);
+  }
   .app-root.fm-shell .sys-footer{
     left:0;
     gap:10px;
     font-size:8px;
-    padding:0 8px;
+    padding:0 8px env(safe-area-inset-bottom,0px);
+    height:calc(24px + env(safe-area-inset-bottom,0px));
   }
   .app-root.fm-shell .sys-time-box{height:16px;padding:0 6px}
   .app-root.fm-shell .sys-ticker-track{gap:34px}
+  .home-fm .recap-table,
+  .home-fm .standings-table{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .home-fm .recap-head,.home-fm .recap-row{min-width:500px}
+  .home-fm .standings-head,.home-fm .standings-row{min-width:360px}
+  .home-fm .standings-full .standings-head,
+  .home-fm .standings-full .standings-row{min-width:560px}
+  .my-fm .my-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .my-fm .champ-search{font-size:16px}
+  .home-fm .user-modal-overlay{
+    place-items:end center;
+    padding:10px 10px calc(58px + 24px + env(safe-area-inset-bottom,0px) + 10px);
+  }
+  .home-fm .user-modal{
+    width:calc(100vw - 24px);
+    max-height:calc(100vh - 120px);
+    overflow:auto;
+  }
+  .app-root.fm-shell input,
+  .app-root.fm-shell select,
+  .app-root.fm-shell textarea{
+    font-size:16px !important;
+  }
+}
+@media(max-width:480px){
+  .home-fm .context-banner,
+  .my-fm .my-banner{padding:10px;gap:8px}
+  .home-fm .league-badge,
+  .my-fm .my-badge{width:52px;height:52px}
+  .home-fm h1,.my-fm h2{font-size:20px}
+  .home-fm .context-overline,.my-fm .my-overline{font-size:9px;letter-spacing:.08em}
+  .home-fm .context-meta,.my-fm .my-meta{
+    font-size:9px;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .auth-wrap{padding:10px 8px}
+  .auth-card,.auth-card--w{padding:18px 12px}
+}
+@media(max-width:420px){
+  .home-fm .user-modal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:380px){
   .my-fm .my-stats-grid{grid-template-columns:1fr}
 }
 </style>
@@ -2146,39 +2218,39 @@ const SEEDED=['Meksika','Kanada','Brezilya','ABD','Almanya','Hollanda','Belçika
 /*  MATCH DATA  */
 const MATCHES=[
 {id:1,grp:'A',h:'Meksika',a:'Güney Afrika',utc:'2026-06-11T19:00:00Z',city:'Meksika City'},
-{id:2,grp:'A',h:'Güney Kore',a:'UEFA-PO D',utc:'2026-06-12T02:00:00Z',city:'Guadalajara'},
-{id:3,grp:'B',h:'Kanada',a:'UEFA-PO A',utc:'2026-06-12T19:00:00Z',city:'Toronto'},
+{id:2,grp:'A',h:'Güney Kore',a:'Çekya',utc:'2026-06-12T02:00:00Z',city:'Guadalajara'},
+{id:3,grp:'B',h:'Kanada',a:'Bosna Hersek',utc:'2026-06-12T19:00:00Z',city:'Toronto'},
 {id:4,grp:'D',h:'ABD',a:'Paraguay',utc:'2026-06-13T01:00:00Z',city:'Los Angeles'},
-{id:5,grp:'D',h:'Avustralya',a:'UEFA-PO C',utc:'2026-06-13T04:00:00Z',city:'Vancouver'},
+{id:5,grp:'D',h:'Avustralya',a:'Türkiye',utc:'2026-06-13T04:00:00Z',city:'Vancouver'},
 {id:6,grp:'B',h:'Katar',a:'İsviçre',utc:'2026-06-13T19:00:00Z',city:'San Francisco'},
 {id:7,grp:'C',h:'Brezilya',a:'Fas',utc:'2026-06-13T22:00:00Z',city:'New Jersey'},
 {id:8,grp:'C',h:'Haiti',a:'İskoçya',utc:'2026-06-14T01:00:00Z',city:'Boston'},
 {id:9,grp:'E',h:'Almanya',a:'Curaçao',utc:'2026-06-14T17:00:00Z',city:'Houston'},
 {id:10,grp:'F',h:'Hollanda',a:'Japonya',utc:'2026-06-14T20:00:00Z',city:'Dallas'},
 {id:11,grp:'E',h:'Fildişi Sah.',a:'Ekvador',utc:'2026-06-14T23:00:00Z',city:'Philadelphia'},
-{id:12,grp:'F',h:'UEFA-PO B',a:'Tunus',utc:'2026-06-15T02:00:00Z',city:'Monterrey'},
+{id:12,grp:'F',h:'İsveç',a:'Tunus',utc:'2026-06-15T02:00:00Z',city:'Monterrey'},
 {id:13,grp:'H',h:'İspanya',a:'Yeşil Burun A.',utc:'2026-06-15T16:00:00Z',city:'Atlanta'},
 {id:14,grp:'G',h:'Belçika',a:'Mısır',utc:'2026-06-15T19:00:00Z',city:'Seattle'},
 {id:15,grp:'H',h:'Suudi Arabistan',a:'Uruguay',utc:'2026-06-15T22:00:00Z',city:'Miami'},
 {id:16,grp:'G',h:'İran',a:'Yeni Zelanda',utc:'2026-06-16T01:00:00Z',city:'Los Angeles'},
 {id:17,grp:'I',h:'Fransa',a:'Senegal',utc:'2026-06-16T19:00:00Z',city:'New Jersey'},
-{id:18,grp:'I',h:'IC-PO 2',a:'Norveç',utc:'2026-06-16T22:00:00Z',city:'Boston'},
+{id:18,grp:'I',h:'Irak',a:'Norveç',utc:'2026-06-16T22:00:00Z',city:'Boston'},
 {id:19,grp:'J',h:'Arjantin',a:'Cezayir',utc:'2026-06-17T01:00:00Z',city:'Kansas City'},
 {id:20,grp:'J',h:'Avusturya',a:'Ürdün',utc:'2026-06-16T07:00:00Z',city:'San Francisco'},
-{id:21,grp:'K',h:'Portekiz',a:'IC-PO 1',utc:'2026-06-17T17:00:00Z',city:'Houston'},
+{id:21,grp:'K',h:'Portekiz',a:'Kongo',utc:'2026-06-17T17:00:00Z',city:'Houston'},
 {id:22,grp:'L',h:'İngiltere',a:'Hırvatistan',utc:'2026-06-17T20:00:00Z',city:'Dallas'},
 {id:23,grp:'L',h:'Gana',a:'Panama',utc:'2026-06-17T23:00:00Z',city:'Toronto'},
 {id:24,grp:'K',h:'Özbekistan',a:'Kolombiya',utc:'2026-06-18T02:00:00Z',city:'Meksika City'},
-{id:25,grp:'A',h:'UEFA-PO D',a:'Güney Afrika',utc:'2026-06-18T16:00:00Z',city:'Atlanta'},
-{id:26,grp:'B',h:'İsviçre',a:'UEFA-PO A',utc:'2026-06-18T19:00:00Z',city:'Los Angeles'},
+{id:25,grp:'A',h:'Çekya',a:'Güney Afrika',utc:'2026-06-18T16:00:00Z',city:'Atlanta'},
+{id:26,grp:'B',h:'İsviçre',a:'Bosna Hersek',utc:'2026-06-18T19:00:00Z',city:'Los Angeles'},
 {id:27,grp:'B',h:'Kanada',a:'Katar',utc:'2026-06-18T22:00:00Z',city:'Vancouver'},
 {id:28,grp:'A',h:'Meksika',a:'Güney Kore',utc:'2026-06-19T01:00:00Z',city:'Guadalajara'},
-{id:29,grp:'D',h:'UEFA-PO C',a:'Paraguay',utc:'2026-06-19T04:00:00Z',city:'San Francisco'},
+{id:29,grp:'D',h:'Türkiye',a:'Paraguay',utc:'2026-06-19T04:00:00Z',city:'San Francisco'},
 {id:30,grp:'D',h:'ABD',a:'Avustralya',utc:'2026-06-19T19:00:00Z',city:'Seattle'},
 {id:31,grp:'C',h:'İskoçya',a:'Fas',utc:'2026-06-19T22:00:00Z',city:'Boston'},
 {id:32,grp:'C',h:'Brezilya',a:'Haiti',utc:'2026-06-20T01:00:00Z',city:'Philadelphia'},
 {id:33,grp:'F',h:'Tunus',a:'Japonya',utc:'2026-06-20T04:00:00Z',city:'Monterrey'},
-{id:34,grp:'F',h:'Hollanda',a:'UEFA-PO B',utc:'2026-06-20T17:00:00Z',city:'Houston'},
+{id:34,grp:'F',h:'Hollanda',a:'İsveç',utc:'2026-06-20T17:00:00Z',city:'Houston'},
 {id:35,grp:'E',h:'Almanya',a:'Fildişi Sah.',utc:'2026-06-20T20:00:00Z',city:'Toronto'},
 {id:36,grp:'E',h:'Ekvador',a:'Curaçao',utc:'2026-06-21T00:00:00Z',city:'Kansas City'},
 {id:37,grp:'H',h:'İspanya',a:'Suudi Arabistan',utc:'2026-06-21T16:00:00Z',city:'Atlanta'},
@@ -2186,27 +2258,27 @@ const MATCHES=[
 {id:39,grp:'H',h:'Uruguay',a:'Yeşil Burun A.',utc:'2026-06-21T22:00:00Z',city:'Miami'},
 {id:40,grp:'G',h:'Yeni Zelanda',a:'Mısır',utc:'2026-06-22T01:00:00Z',city:'Vancouver'},
 {id:41,grp:'J',h:'Arjantin',a:'Avusturya',utc:'2026-06-22T17:00:00Z',city:'Dallas'},
-{id:42,grp:'I',h:'Fransa',a:'IC-PO 2',utc:'2026-06-22T21:00:00Z',city:'Philadelphia'},
+{id:42,grp:'I',h:'Fransa',a:'Irak',utc:'2026-06-22T21:00:00Z',city:'Philadelphia'},
 {id:43,grp:'I',h:'Norveç',a:'Senegal',utc:'2026-06-23T00:00:00Z',city:'New Jersey'},
 {id:44,grp:'J',h:'Ürdün',a:'Cezayir',utc:'2026-06-23T03:00:00Z',city:'San Francisco'},
 {id:45,grp:'K',h:'Portekiz',a:'Özbekistan',utc:'2026-06-23T17:00:00Z',city:'Houston'},
 {id:46,grp:'L',h:'İngiltere',a:'Gana',utc:'2026-06-23T20:00:00Z',city:'Boston'},
 {id:47,grp:'L',h:'Panama',a:'Hırvatistan',utc:'2026-06-23T23:00:00Z',city:'Toronto'},
-{id:48,grp:'K',h:'Kolombiya',a:'IC-PO 1',utc:'2026-06-24T02:00:00Z',city:'Guadalajara'},
+{id:48,grp:'K',h:'Kolombiya',a:'Kongo',utc:'2026-06-24T02:00:00Z',city:'Guadalajara'},
 {id:49,grp:'B',h:'İsviçre',a:'Kanada',utc:'2026-06-24T19:00:00Z',city:'Vancouver'},
-{id:50,grp:'B',h:'UEFA-PO A',a:'Katar',utc:'2026-06-24T19:00:00Z',city:'Seattle'},
+{id:50,grp:'B',h:'Bosna Hersek',a:'Katar',utc:'2026-06-24T19:00:00Z',city:'Seattle'},
 {id:51,grp:'C',h:'İskoçya',a:'Brezilya',utc:'2026-06-24T22:00:00Z',city:'Miami'},
 {id:52,grp:'C',h:'Fas',a:'Haiti',utc:'2026-06-24T22:00:00Z',city:'Atlanta'},
-{id:53,grp:'A',h:'UEFA-PO D',a:'Meksika',utc:'2026-06-25T01:00:00Z',city:'Meksika City'},
+{id:53,grp:'A',h:'Çekya',a:'Meksika',utc:'2026-06-25T01:00:00Z',city:'Meksika City'},
 {id:54,grp:'A',h:'Güney Afrika',a:'Güney Kore',utc:'2026-06-25T01:00:00Z',city:'Monterrey'},
 {id:55,grp:'E',h:'Curaçao',a:'Fildişi Sah.',utc:'2026-06-25T20:00:00Z',city:'Philadelphia'},
 {id:56,grp:'E',h:'Ekvador',a:'Almanya',utc:'2026-06-25T20:00:00Z',city:'New Jersey'},
-{id:57,grp:'F',h:'Japonya',a:'UEFA-PO B',utc:'2026-06-25T23:00:00Z',city:'Dallas'},
+{id:57,grp:'F',h:'Japonya',a:'İsveç',utc:'2026-06-25T23:00:00Z',city:'Dallas'},
 {id:58,grp:'F',h:'Tunus',a:'Hollanda',utc:'2026-06-25T23:00:00Z',city:'Kansas City'},
-{id:59,grp:'D',h:'UEFA-PO C',a:'ABD',utc:'2026-06-26T02:00:00Z',city:'Los Angeles'},
+{id:59,grp:'D',h:'Türkiye',a:'ABD',utc:'2026-06-26T02:00:00Z',city:'Los Angeles'},
 {id:60,grp:'D',h:'Paraguay',a:'Avustralya',utc:'2026-06-26T02:00:00Z',city:'San Francisco'},
 {id:61,grp:'I',h:'Norveç',a:'Fransa',utc:'2026-06-26T19:00:00Z',city:'Boston'},
-{id:62,grp:'I',h:'Senegal',a:'IC-PO 2',utc:'2026-06-26T19:00:00Z',city:'Toronto'},
+{id:62,grp:'I',h:'Senegal',a:'Irak',utc:'2026-06-26T19:00:00Z',city:'Toronto'},
 {id:63,grp:'H',h:'Yeşil Burun A.',a:'Suudi Arabistan',utc:'2026-06-27T00:00:00Z',city:'Houston'},
 {id:64,grp:'H',h:'Uruguay',a:'İspanya',utc:'2026-06-27T00:00:00Z',city:'Guadalajara'},
 {id:65,grp:'G',h:'Mısır',a:'İran',utc:'2026-06-27T03:00:00Z',city:'Seattle'},
@@ -2214,7 +2286,7 @@ const MATCHES=[
 {id:67,grp:'L',h:'Panama',a:'İngiltere',utc:'2026-06-27T21:00:00Z',city:'New Jersey'},
 {id:68,grp:'L',h:'Hırvatistan',a:'Gana',utc:'2026-06-27T21:00:00Z',city:'Philadelphia'},
 {id:69,grp:'K',h:'Kolombiya',a:'Portekiz',utc:'2026-06-27T23:30:00Z',city:'Miami'},
-{id:70,grp:'K',h:'IC-PO 1',a:'Özbekistan',utc:'2026-06-27T23:30:00Z',city:'Atlanta'},
+{id:70,grp:'K',h:'Kongo',a:'Özbekistan',utc:'2026-06-27T23:30:00Z',city:'Atlanta'},
 {id:71,grp:'J',h:'Cezayir',a:'Avusturya',utc:'2026-06-28T02:00:00Z',city:'Kansas City'},
 {id:72,grp:'J',h:'Ürdün',a:'Arjantin',utc:'2026-06-28T02:00:00Z',city:'Dallas'},
 ];
@@ -2490,10 +2562,10 @@ function processUserProfileScores(scores,tournamentId){
   if(dirty) S.set('users',users);
 }
 
-const FLAGS={'Meksika':'','Güney Afrika':'','Güney Kore':'','Kanada':'','İsviçre':'','Katar':'','ABD':'','Paraguay':'','Avustralya':'','Brezilya':'','Fas':'','Haiti':'','İskoçya':'󠁧󠁢󠁳󠁣󠁴󠁿','Almanya':'','Curaçao':'','Hollanda':'','Japonya':'','Fildişi Sah.':'','Ekvador':'','İspanya':'','Yeşil Burun A.':'','Belçika':'','Mısır':'','Suudi Arabistan':'','Uruguay':'','İran':'','Yeni Zelanda':'','Fransa':'','Senegal':'','Norveç':'','Arjantin':'','Cezayir':'','Avusturya':'','Ürdün':'','Portekiz':'','Özbekistan':'','İngiltere':'󠁧󠁢󠁥󠁮󠁧󠁿','Hırvatistan':'','Gana':'','Panama':'','Kolombiya':'','Tunus':''};
-const flag=t=>FLAGS[t]||'ï¸';
+const FLAGS={'Meksika':'','Güney Afrika':'','Güney Kore':'','Kanada':'','İsviçre':'','Katar':'','ABD':'','Paraguay':'','Avustralya':'','Brezilya':'','Fas':'','Haiti':'','İskoçya':'󠁧󠁢󠁳󠁣󠁴󠁿','Almanya':'','Curaçao':'','Hollanda':'','Japonya':'','Fildişi Sah.':'','Ekvador':'','İspanya':'','Yeşil Burun A.':'','Belçika':'','Mısır':'','Suudi Arabistan':'','Uruguay':'','İran':'','Yeni Zelanda':'','Fransa':'','Senegal':'','Norveç':'','Arjantin':'','Cezayir':'','Avusturya':'','Ürdün':'','Portekiz':'','Özbekistan':'','İngiltere':'󠁧󠁢󠁥󠁮󠁧󠁿','Hırvatistan':'','Gana':'','Panama':'','Kolombiya':'','Tunus':'','Bosna Hersek':'','Çekya':'','Irak':'','İsveç':'','Kongo':'','Türkiye':''};
+const flag=t=>FLAGS[t]||'';
 
-const COUNTRY_CODES={'Meksika':'mx','Güney Afrika':'za','Güney Kore':'kr','Kanada':'ca','İsviçre':'ch','Katar':'qa','ABD':'us','Paraguay':'py','Avustralya':'au','Brezilya':'br','Fas':'ma','Haiti':'ht','İskoçya':'gb-sct','Almanya':'de','Curaçao':'cw','Hollanda':'nl','Japonya':'jp','Fildişi Sah.':'ci','Ekvador':'ec','İspanya':'es','Yeşil Burun A.':'cv','Belçika':'be','Mısır':'eg','Suudi Arabistan':'sa','Uruguay':'uy','İran':'ir','Yeni Zelanda':'nz','Fransa':'fr','Senegal':'sn','Norveç':'no','Arjantin':'ar','Cezayir':'dz','Avusturya':'at','Ürdün':'jo','Portekiz':'pt','Özbekistan':'uz','İngiltere':'gb-eng','Hırvatistan':'hr','Gana':'gh','Panama':'pa','Kolombiya':'co','Tunus':'tn'};
+const COUNTRY_CODES={'Meksika':'mx','Güney Afrika':'za','Güney Kore':'kr','Kanada':'ca','İsviçre':'ch','Katar':'qa','ABD':'us','Paraguay':'py','Avustralya':'au','Brezilya':'br','Fas':'ma','Haiti':'ht','İskoçya':'gb-sct','Almanya':'de','Curaçao':'cw','Hollanda':'nl','Japonya':'jp','Fildişi Sah.':'ci','Ekvador':'ec','İspanya':'es','Yeşil Burun A.':'cv','Belçika':'be','Mısır':'eg','Suudi Arabistan':'sa','Uruguay':'uy','İran':'ir','Yeni Zelanda':'nz','Fransa':'fr','Senegal':'sn','Norveç':'no','Arjantin':'ar','Cezayir':'dz','Avusturya':'at','Ürdün':'jo','Portekiz':'pt','Özbekistan':'uz','İngiltere':'gb-eng','Hırvatistan':'hr','Gana':'gh','Panama':'pa','Kolombiya':'co','Tunus':'tn','Bosna Hersek':'ba','Çekya':'cz','Irak':'iq','İsveç':'se','Kongo':'cg','Türkiye':'tr'};
 const flagSrc=t=>{const c=COUNTRY_CODES[t];return c?`https://flagcdn.com/w80/${c}.png`:''};
 function WFlag({team,size='md'}){
   const src=flagSrc(team);
@@ -2591,7 +2663,7 @@ function RegisterF({flash,msg,nav,onLogin}){
     users[key]=u;S.set('users',users);S.set('session',{username:key});
     flash('Kayıt başarılı! Hoş geldiniz ','success');setTimeout(()=>onLogin(u),800);
   };
-  return<div className="auth-card auth-card--w"><div className="auth-line"/><Logo size="sm"/><div className="auth-h"><h2>HESAP OLUŞTUR</h2><p>Tahmin oyununa katılmak için kayıt ol</p></div><div className="info-b">İlk kayıt olan kullanıcı otomatik olarak <strong>Admin</strong> olur; <strong>mert</strong> hesabı her zaman Admin rolündedir. Maç skorları yalnızca otomatik veri akışıyla güncellenir — Admin dahil kimse manuel skor veya sıra düzenleyemez.</div><Msg msg={msg}/><div className="g2"><Field label="Kullanıcı Adı *" placeholder="ornek_kullanici" value={f.username} onChange={e=>up('username',e.target.value)} autoComplete="username"/><Field label="Görünen Ad *" placeholder="Adınız" value={f.displayName} onChange={e=>up('displayName',e.target.value)}/></div><div className="g2"><Field label="Şifre * (min 6)" type="password" placeholder="" value={f.password} onChange={e=>up('password',e.target.value)} autoComplete="new-password"/><Field label="Şifre Tekrar *" type="password" placeholder="" value={f.confirm} onChange={e=>up('confirm',e.target.value)} autoComplete="new-password"/></div><SelField label="Güvenlik Sorusu *" value={f.secQ} onChange={e=>up('secQ',e.target.value)}>{SEC_Q.map(q=><option key={q} value={q}>{q}</option>)}</SelField><Field label="Güvenlik Sorusu Cevabı *" placeholder="Şifre sıfırlamada kullanılır" value={f.secA} onChange={e=>up('secA',e.target.value)}/><p style={{fontSize:11,color:'var(--tm)',marginBottom:14,lineHeight:1.55}}>* Tüm verileriniz cihazınızda saklanır, hiç silinmez.</p><button className="btn-p" onClick={go}>KAYIT OL VE OYNA </button><button className="btn-g" onClick={()=>nav('login')}> Zaten hesabım var</button></div>;
+  return<div className="auth-card auth-card--w"><div className="auth-line"/><Logo size="sm"/><div className="auth-h"><h2>HESAP OLUŞTUR</h2><p>Tahmin oyununa katılmak için kayıt ol</p></div><div className="info-b">Maç skorları yalnızca otomatik veri akışıyla güncellenir — Admin dahil kimse manuel skor veya sıra düzenleyemez.</div><Msg msg={msg}/><div className="g2"><Field label="Kullanıcı Adı *" placeholder="ornek_kullanici" value={f.username} onChange={e=>up('username',e.target.value)} autoComplete="username"/><Field label="Görünen Ad *" placeholder="Adınız" value={f.displayName} onChange={e=>up('displayName',e.target.value)}/></div><div className="g2"><Field label="Şifre * (min 6)" type="password" placeholder="" value={f.password} onChange={e=>up('password',e.target.value)} autoComplete="new-password"/><Field label="Şifre Tekrar *" type="password" placeholder="" value={f.confirm} onChange={e=>up('confirm',e.target.value)} autoComplete="new-password"/></div><SelField label="Güvenlik Sorusu *" value={f.secQ} onChange={e=>up('secQ',e.target.value)}>{SEC_Q.map(q=><option key={q} value={q}>{q}</option>)}</SelField><Field label="Güvenlik Sorusu Cevabı *" placeholder="Şifre sıfırlamada kullanılır" value={f.secA} onChange={e=>up('secA',e.target.value)}/><p style={{fontSize:11,color:'var(--tm)',marginBottom:14,lineHeight:1.55}}>* Tüm verileriniz cihazınızda saklanır, hiç silinmez.</p><button className="btn-p" onClick={go}>KAYIT OL VE OYNA </button><button className="btn-g" onClick={()=>nav('login')}> Zaten hesabım var</button></div>;
 }
 function ResetF({flash,msg,nav}){
   const [step,setStep]=useState(1);const [un,setUn]=useState('');const [q,setQ]=useState('');const [sa,setSa]=useState('');const [pw,setPw]=useState('');const [con,setCon]=useState('');
@@ -2646,6 +2718,7 @@ function MainApp({currentUser,onLogout}){
   const activeMenu=MENU.find(m=>m.id===active)||MENU[0];
   const footerTime=clock.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
   const headerDate=clock.toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'});
+  const headerDateShort=clock.toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'2-digit'});
 
   return<div className="app-root fm-shell"><HexBg/>
     <aside className="sidebar fm-sidebar">
@@ -2690,7 +2763,10 @@ function MainApp({currentUser,onLogout}){
             <span className="sync-dot"/>
             <span>{liveSync.ok?'READY':'SYNCING'}</span>
           </div>
-          <button className="continue-btn" type="button">{headerDate}</button>
+          <button className="continue-btn" type="button">
+            <span className="date-long">{headerDate}</span>
+            <span className="date-short">{headerDateShort}</span>
+          </button>
         </div>
       </header>
 
@@ -3498,7 +3574,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>
 </html>
-
 
 
 
