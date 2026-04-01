@@ -1798,6 +1798,120 @@ body{
   width:64px;height:64px;border:1px solid var(--br);border-radius:2px;
   display:grid;place-items:center;background:rgba(5,10,20,.7);
   color:var(--or);font-family:var(--f-head);font-weight:800;font-size:22px;
+  overflow:hidden;
+  position:relative;
+  padding:0;
+}
+.my-fm .my-avatar-btn{
+  cursor:pointer;
+  transition:border-color .2s,box-shadow .2s,transform .2s;
+}
+.my-fm .my-avatar-btn:hover{
+  border-color:rgba(212,175,55,.55);
+  box-shadow:0 0 12px rgba(212,175,55,.2);
+  transform:translateY(-1px);
+}
+.my-fm .my-avatar-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  image-rendering:pixelated;
+  display:block;
+}
+.my-fm .my-avatar-fallback{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  font-family:var(--f-head);
+  font-size:22px;
+  font-weight:800;
+  color:var(--or);
+}
+.my-fm .my-avatar-upload{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  text-transform:uppercase;
+  font-family:var(--f-mono);
+  font-size:9px;
+  letter-spacing:.07em;
+  color:var(--or);
+  line-height:1.25;
+  padding:6px;
+}
+.my-fm .my-avatar-panel{
+  margin-top:10px;
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:linear-gradient(180deg,rgba(10,18,34,.96),rgba(7,13,24,.96));
+  padding:10px;
+}
+.my-fm .my-avatar-group{
+  margin-top:10px;
+}
+.my-fm .my-avatar-group:first-of-type{
+  margin-top:8px;
+}
+.my-fm .my-avatar-group-title{
+  font-family:var(--f-mono);
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--or);
+}
+.my-fm .my-avatar-grid{
+  margin-top:8px;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:8px;
+}
+.my-fm .my-avatar-item{
+  border:1px solid var(--br);
+  border-radius:2px;
+  background:rgba(17,29,53,.32);
+  padding:6px 4px;
+  cursor:pointer;
+  transition:border-color .2s,transform .2s,background .2s;
+  min-width:0;
+}
+.my-fm .my-avatar-item:hover{
+  border-color:rgba(212,175,55,.5);
+  background:rgba(212,175,55,.1);
+  transform:translateY(-1px);
+}
+.my-fm .my-avatar-item.active{
+  border-color:var(--or);
+  background:rgba(212,175,55,.14);
+  box-shadow:0 0 10px rgba(212,175,55,.2);
+}
+.my-fm .my-avatar-item img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  image-rendering:pixelated;
+  border-radius:1px;
+  display:block;
+}
+.my-fm .my-avatar-item span{
+  display:block;
+  margin-top:4px;
+  font-family:var(--f-mono);
+  font-size:8px;
+  color:var(--tm);
+  text-align:center;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.my-fm .my-avatar-note{
+  margin-top:8px;
+  font-size:10px;
+  color:var(--tm);
+  font-family:var(--f-mono);
+  letter-spacing:.03em;
 }
 .my-fm .my-overline{
   font-size:10px;color:var(--or);font-family:var(--f-mono);letter-spacing:.12em
@@ -2138,6 +2252,7 @@ body{
   .home-fm .intel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .my-fm .my-workspace{grid-template-columns:1fr;gap:8px}
   .my-fm .my-banner{flex-direction:column}
+  .my-fm .my-avatar-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
   .my-fm .my-next-box{text-align:left;min-width:0}
   .my-fm .my-stats-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
   .my-fm .my-tabs{overflow:auto;white-space:nowrap}
@@ -2258,6 +2373,7 @@ body{
   .home-fm .pred-feed-user-tag{font-size:9px}
   .home-fm .news-marquee{height:124px}
   .home-fm .news-item{padding:7px;font-size:10px}
+  .my-fm .my-avatar-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
   .my-fm .my-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .my-fm .my-side,
   .my-fm .my-main-panel,
@@ -2435,6 +2551,7 @@ body{
 }
 @media(max-width:420px){
   .home-fm .user-modal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .my-fm .my-avatar-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 </style>
 </head>
@@ -2650,6 +2767,60 @@ async function fetchLiveScoresOverlay(base){
 const USER_SCORE_TOURNAMENT_ID='wc2026';
 const USER_SCORE_ENGINE_VERSION=2;
 const USER_SCORE_WEIGHTS={ exactScore:25, correctWinner:15, savedPenalty:10, hattrick:10, redCard:-10, missedPenalty:-10 };
+const AVATAR_LIBRARY=[
+  {id:'px-01',label:'P1',src:'./avatar/px-01.svg'},
+  {id:'px-02',label:'P2',src:'./avatar/px-02.svg'},
+  {id:'px-03',label:'P3',src:'./avatar/px-03.svg'},
+  {id:'px-04',label:'P4',src:'./avatar/px-04.svg'},
+  {id:'px-05',label:'P5',src:'./avatar/px-05.svg'},
+  {id:'px-06',label:'P6',src:'./avatar/px-06.svg'},
+  {id:'px-07',label:'P7',src:'./avatar/px-07.svg'},
+  {id:'px-08',label:'P8',src:'./avatar/px-08.svg'},
+  {id:'px-09',label:'P9',src:'./avatar/px-09.svg'},
+  {id:'px-10',label:'P10',src:'./avatar/px-10.svg'},
+  {id:'px-11',label:'P11',src:'./avatar/px-11.svg'},
+  {id:'px-12',label:'P12',src:'./avatar/px-12.svg'},
+  {id:'legend-01',label:'MESSI',src:'./avatar/legend-01-messi.svg'},
+  {id:'legend-02',label:'C.RONALDO',src:'./avatar/legend-02-c-ronaldo.svg'},
+  {id:'legend-03',label:'MBAPPE',src:'./avatar/legend-03-mbappe.svg'},
+  {id:'legend-04',label:'VINICIUS JR',src:'./avatar/legend-04-vinicius-jr.svg'},
+  {id:'legend-05',label:'MARADONA',src:'./avatar/legend-05-maradona.svg'},
+  {id:'legend-06',label:'ZIDANE',src:'./avatar/legend-06-zidane.svg'},
+  {id:'legend-07',label:'PELE',src:'./avatar/legend-07-pele.svg'},
+  {id:'legend-08',label:'R.NAZARIO',src:'./avatar/legend-08-r-nazario.svg'},
+  {id:'legend-09',label:'CANTONA',src:'./avatar/legend-09-cantona.svg'},
+  {id:'legend-10',label:'MALDINI',src:'./avatar/legend-10-maldini.svg'},
+  {id:'legend-11',label:'BECKHAM',src:'./avatar/legend-11-beckham.svg'},
+  {id:'legend-12',label:'CRUYFF',src:'./avatar/legend-12-cruyff.svg'},
+  {id:'legend-13',label:'O.KAHN',src:'./avatar/legend-13-o-kahn.svg'},
+  {id:'legend-14',label:'ROONEY',src:'./avatar/legend-14-rooney.svg'},
+  {id:'legend-15',label:'R.BAGGIO',src:'./avatar/legend-15-r-baggio.svg'},
+  {id:'legend-16',label:'BUFFON',src:'./avatar/legend-16-buffon.svg'},
+  {id:'legend-17',label:'RAUL',src:'./avatar/legend-17-raul.svg'},
+  {id:'legend-18',label:'IBRAHIMOVIC',src:'./avatar/legend-18-ibrahimovic.svg'},
+  {id:'legend-19',label:'VAN NISTELROOY',src:'./avatar/legend-19-van-nistelrooy.svg'},
+  {id:'legend-20',label:'BATISTUTA',src:'./avatar/legend-20-batistuta.svg'},
+  {id:'legend-21',label:'FIGO',src:'./avatar/legend-21-figo.svg'},
+  {id:'legend-22',label:'ROBBEN',src:'./avatar/legend-22-robben.svg'},
+  {id:'legend-23',label:'DROGBA',src:'./avatar/legend-23-drogba.svg'}
+];
+const AVATAR_CATEGORIES=[
+  {id:'classic',label:'Klasik Pikseller',items:AVATAR_LIBRARY.filter(a=>a.id.startsWith('px-'))},
+  {id:'legends',label:'Futbol Efsaneleri',items:AVATAR_LIBRARY.filter(a=>a.id.startsWith('legend-'))}
+];
+const avatarById=id=>AVATAR_LIBRARY.find(a=>a.id===id)||null;
+
+function migrateAvatarFields(){
+  const users=S.get('users')||{};
+  let changed=false;
+  for(const k of Object.keys(users)){
+    const u=users[k];
+    if(typeof u.avatarId!=='string'){ u.avatarId=''; changed=true; }
+    if(u.avatarId&&!avatarById(u.avatarId)){ u.avatarId=''; changed=true; }
+    users[k]=u;
+  }
+  if(changed) S.set('users',users);
+}
 
 function makeUserScoreLedgerKey(tournamentId,matchId){ return `${tournamentId}::${matchId}`; }
 
@@ -2904,7 +3075,7 @@ function RegisterF({flash,msg,nav,onLogin}){
     if(!/^[a-zA-Z0-9_]{3,20}$/.test(f.username.trim()))return flash('Kullanıcı adı 3-20 karakter, harf/rakam/_ içerebilir');
     const users=S.get('users')||{};const key=f.username.trim().toLowerCase();
     if(users[key])return flash('Bu kullanıcı adı zaten alınmı');
-    const u={username:key,displayName:f.displayName.trim(),passwordHash:hash(f.password),securityQuestion:f.secQ,securityAnswerHash:hash(f.secA.trim().toLowerCase()),createdAt:new Date().toISOString(),role:key===ADMIN_USERNAME?'admin':(Object.keys(users).length===0?'admin':'user'),totalPoints:0,scoreRating:1000,userScore:0,userScoreLedger:{},userScoreEngineVersion:USER_SCORE_ENGINE_VERSION};
+    const u={username:key,displayName:f.displayName.trim(),passwordHash:hash(f.password),securityQuestion:f.secQ,securityAnswerHash:hash(f.secA.trim().toLowerCase()),createdAt:new Date().toISOString(),role:key===ADMIN_USERNAME?'admin':(Object.keys(users).length===0?'admin':'user'),totalPoints:0,scoreRating:1000,userScore:0,userScoreLedger:{},userScoreEngineVersion:USER_SCORE_ENGINE_VERSION,avatarId:''};
     users[key]=u;S.set('users',users);S.set('session',{username:key});
     flash('Kayıt başarılı! Hoş geldiniz ','success');setTimeout(()=>onLogin(u),800);
   };
@@ -2921,6 +3092,7 @@ function ResetF({flash,msg,nav}){
 /*  APP SHELL  */
 function MainApp({currentUser,onLogout}){
   ensureMertAdmin();
+  migrateAvatarFields();
   const [active,setActive]=useState('home');
   const [user,setUser]=useState(currentUser);
   const [clock,setClock]=useState(new Date());
@@ -2928,7 +3100,7 @@ function MainApp({currentUser,onLogout}){
   const [liveSync,setLiveSync]=useState({ ok:false, last:null });
   const scoresKey=useMemo(()=>JSON.stringify(scores),[scores]);
   const refreshUser=()=>{const users=S.get('users')||{};const u=users[user.username];if(u)setUser({...u})};
-  useEffect(()=>{ensureMertAdmin();},[]);
+  useEffect(()=>{ensureMertAdmin();migrateAvatarFields();},[]);
   useEffect(()=>{
     const cid=setInterval(()=>setClock(new Date()),1000);
     return()=>clearInterval(cid);
@@ -3409,8 +3581,10 @@ function HomeScreen({currentUser,scores,liveSync}){
             <div className="intel-note">Ana sayfada skor tahmini yapılamaz. Bu kart yalnızca maç bilgisi ve canlı durum detaylarını gösterir.</div>
           </div>
         </div>}
+      </div>
+      <div className="fm-panel" style={{marginTop:10}}>
         <div className="pred-feed-wrap">
-          <div className="panel-head mt16">Kullanıcı Tahminleri</div>
+          <div className="panel-head">Kullanıcı Tahminleri</div>
           <div className="pred-feed-list">
             {revealedPredFeed.map(u=><div key={u.key} className="pred-feed-row">
               <span className="pred-feed-line">
@@ -3491,9 +3665,15 @@ function MyScreen({currentUser,onUserUpdate,scores}){
   const [tab,setTab]=useState('predict');
   const [preds,setPreds]=useState(()=>S.get('preds_'+currentUser.username)||{});
   const [champion,setChampion]=useState(()=>S.get('champ_'+currentUser.username)||null);
+  const [avatarOpen,setAvatarOpen]=useState(false);
+  const [avatarPreviewError,setAvatarPreviewError]=useState(false);
   const toast=useToast();
+  const activeAvatar=useMemo(()=>avatarById(currentUser.avatarId),[currentUser.avatarId]);
+  const hasAvatar=Boolean(currentUser.avatarId&&activeAvatar);
+  const avatarFallback=(currentUser.displayName||currentUser.username||'U').charAt(0).toUpperCase();
 
   useEffect(()=>{const id=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(id)},[]);
+  useEffect(()=>{setAvatarPreviewError(false)},[currentUser.avatarId]);
   const enriched=useMemo(()=>MATCHES.map(m=>({...m,status:getMatchStatus(m,now,scores),ls:getLockState(m,now),lockPct:getLockPct(m,now)})),[now,scores]);
 
   const savePred=(matchId,h,a)=>{
@@ -3513,6 +3693,17 @@ function MyScreen({currentUser,onUserUpdate,scores}){
     S.set('champ_'+currentUser.username,team);
     toast(`Şampiyon tahmini güncellendi: ${team} `,'success');
   };
+  const saveAvatar=(avatarId)=>{
+    const users=S.get('users')||{};
+    const me=users[currentUser.username];
+    if(!me) return;
+    me.avatarId=avatarId;
+    users[currentUser.username]=me;
+    S.set('users',users);
+    onUserUpdate();
+    setAvatarOpen(false);
+    toast('Avatar güncellendi.','success');
+  };
 
   const totalPreds=Object.keys(preds).length;
   const finishedWithScore=Object.entries(preds).filter(([mid,p])=>scores[mid]&&p.pts!=null);
@@ -3529,7 +3720,11 @@ function MyScreen({currentUser,onUserUpdate,scores}){
   return<div className="my-fm">
     <section className="my-banner">
       <div className="my-banner-left">
-        <div className="my-badge">MY</div>
+        <button type="button" className="my-badge my-avatar-btn" onClick={()=>setAvatarOpen(v=>!v)} title="Avatar seç">
+          {hasAvatar&&!avatarPreviewError&&<img className="my-avatar-img" src={activeAvatar.src} alt={activeAvatar.label} onError={()=>setAvatarPreviewError(true)}/>}
+          {hasAvatar&&avatarPreviewError&&<span className="my-avatar-fallback">{avatarFallback}</span>}
+          {!hasAvatar&&<span className="my-avatar-upload">avatar yükle</span>}
+        </button>
         <div>
           <div className="my-overline">USER DASHBOARD</div>
           <h2>BENİM SAYFAM</h2>
@@ -3554,6 +3749,23 @@ function MyScreen({currentUser,onUserUpdate,scores}){
         </>}
       </div>
     </section>
+
+    {avatarOpen&&<section className="my-avatar-panel">
+      <div className="panel-head">Avatar Seçimi</div>
+      {AVATAR_CATEGORIES.map(cat=><div key={cat.id} className="my-avatar-group">
+        <div className="my-avatar-group-title">{cat.label}</div>
+        <div className="my-avatar-grid">
+          {cat.items.map(a=>{
+            const isActive=currentUser.avatarId===a.id;
+            return<button key={a.id} type="button" className={`my-avatar-item${isActive?' active':''}`} onClick={()=>saveAvatar(a.id)} title={a.label}>
+              <img src={a.src} alt={a.label}/>
+              <span>{a.label}</span>
+            </button>;
+          })}
+        </div>
+      </div>)}
+      <div className="my-avatar-note">Yalnızca sistemde tanımlı avatarlar seçilebilir.</div>
+    </section>}
 
     <div className="my-stats-grid">
       <div className="my-stat"><span>PROFİL SKORU</span><strong>{Number(currentUser.userScore)||0}</strong><small>Tüm turnuvalar</small></div>
