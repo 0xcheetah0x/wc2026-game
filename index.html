@@ -2099,8 +2099,13 @@ body{
     border-radius:0;
     display:flex;
     flex-direction:column;
+    justify-content:center;
+    align-items:center;
     gap:2px;
+    padding:6px 2px;
     font-size:9px;
+    line-height:1.1;
+    text-align:center;
     background:rgba(17,29,53,.78);
     color:#dbe6f3;
   }
@@ -2115,8 +2120,15 @@ body{
     background:rgba(127,29,29,.24);
     color:#fecaca;
   }
-  .app-root.fm-shell .nav-item.mobile-only .nav-icon{font-size:16px}
-  .app-root.fm-shell .nav-item>span:last-child{display:block}
+  .app-root.fm-shell .nav-item>span{
+    display:block;
+    width:100%;
+    text-align:center;
+  }
+  .app-root.fm-shell .nav-item>span:last-child{
+    display:block;
+    white-space:normal;
+  }
   .app-root.fm-shell .main-shell{margin-left:0;width:100%}
   .app-root.fm-shell .ctrl-header{padding:0 8px;gap:6px}
   .app-root.fm-shell .ctrl-left,.app-root.fm-shell .ctrl-right{gap:6px;min-width:0}
@@ -2891,8 +2903,7 @@ function MainApp({currentUser,onLogout}){
           <span>{item.label}</span>
         </div>)}
         <div className="nav-item mobile-only" onClick={()=>{S.del('session');onLogout()}}>
-          <span className="nav-icon">OUT</span>
-          <span>Sayfadan Çık</span>
+          <span>Çıkış</span>
         </div>
       </nav>
       <div className="sb-user">
